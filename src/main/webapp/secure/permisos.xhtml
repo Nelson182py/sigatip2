@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://xmlns.jcp.org/jsf/html"
+       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <link href="../resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <link href="../resources/css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="./../../resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <style type="text/css">
+            .ui-datalist {
+                width:300px;
+                margin-bottom: 20px;
+            }
+
+            .ui-datalist-item {
+                padding:3px;
+            }
+
+            .paginated .ui-datalist-data {
+                padding-left: 20px;
+            }
+        </style>
+    </h:head>
+
+
+    <ui:composition template="/WEB-INF/template.xhtml"  >
+        <ui:define name="tituloPagina">
+            Administración de Permisos
+        </ui:define>
+        <ui:define name="content" >
+            <h:form id="formPermisos">
+                <p:dataTable id="dtPermisos" value="#{permisoBean.listaPermiso}" var="permiso" rows="10" rowKey="#{permiso.id}">
+
+                    <p:column headerText="Descripción">
+                        <p:outputLabel value="#{permiso.descripcion}" />
+                    </p:column>
+
+                    <p:column headerText="Acción" style="width: 150px;">
+                        <center>
+                            <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbPermisos').show()"
+                                             update="formDlgPermisos" action="#{permisoBean.antesActualizar}">
+                                <f:setPropertyActionListener value="#{permiso}" target="#{permisoBean.permisoSeleccionado}" />
+                                <f:setPropertyActionListener value="#{true}" target="#{permisoBean.editando}" />
+                            </p:commandButton>
+
+                            <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
+                                             action="#{permisoBean.eliminar}" update="formPermisos:dtRoles formGrowl:growl">
+                                <f:setPropertyActionListener value="#{permiso}" target="#{permisoBean.permisoSeleccionado}" />
+                                <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
+                            </p:commandButton>
+                        </center>
+                    </p:column>
+                </p:dataTable> 
+                <div class="float-sm-right" style="padding-top: 10px;">
+                    <p:commandButton value="Nuevo Permiso" ajax="true" icon="fa fa-plus-circle"  
+                                     oncomplete="PF('wbPermisos').show();"
+                                     actionListener="#{permisoBean.agregar()}"
+                                     update="formDlgPermisos">
+                        <f:setPropertyActionListener value="#{false}" target="#{permisoBean.editando}" />
+                    </p:commandButton>
+                </div>
+            </h:form>
+
+            <p:dialog id="dlgPermisos" widgetVar="wbPermisos" closeOnEscape="true" closable="true" header="Permisos"
+                      width="500" height="300"  appendTo="@(body)"> 
+                <h:form id="formDlgPermisos">
+                    <div class="bd-example">
+                        <div class="form-group row">
+                            <label for="nom" class="col-sm-2 col-form-label">Permiso</label>
+                            <div class="col-sm-10">
+                                <p:inputText id="nom" styleClass="form-control" required="false"
+                                             value="#{permisoBean.permisoSeleccionado.descripcion}"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="bd-example">
+                        <div class="form-group row">
+                            <label for="desc" class="col-sm-2 col-form-label">Decripción</label>
+                            <div class="col-sm-10">
+                                <p:inputText id="desc" styleClass="form-control" required="false"
+                                             value="#{permisoBean.permisoSeleccionado.descripcion}"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <center>
+                        <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
+                                          action="#{permisoBean.guardar}"
+                                          update="formPermisos:dtPermisos formGrowl:growl"
+                                          process="@this @form"
+                                          rendered="#{!permisoBean.editando}"
+                                          />
+
+                        <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
+                                          action="#{permisoBean.actualizar}"
+                                          update="formPermisos:dtPermisos formGrowl:growl"
+                                          process="@this @form"
+                                          rendered="#{permisoBean.editando}"
+                                          />
+
+                        <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                          onclick="PF('wbPermisos').hide()"></p:commandButton>
+
+                    </center>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog>                     
+                </h:form>
+            </p:dialog>  
+
+
+
+        </ui:define>
+    </ui:composition>
+
+</html>

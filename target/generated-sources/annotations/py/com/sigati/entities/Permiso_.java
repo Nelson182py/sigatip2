@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import py.com.sigati.entities.Rol;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-02-26T22:38:51")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-03-23T10:51:23")
 @StaticMetamodel(Permiso.class)
 public class Permiso_ { 
 

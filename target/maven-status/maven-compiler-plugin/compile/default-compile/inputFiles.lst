@@ -2,8 +2,10 @@
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Entregable.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/GrowlView.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Usuario.java
+/Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/RolBean.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/ejb/UsuarioFacade.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Proyecto.java
+/Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/ejb/PersonaEJB.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Nacionalidad.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Area.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/ejb/EstadoEJB.java
@@ -19,6 +21,7 @@
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Incidente.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Estado.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/util/TareaDataService.java
+/Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/PersonaBean.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/util/LazyTaskDataModel.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/LoginBean.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Tarea.java
@@ -26,7 +29,9 @@
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/EntityConverter.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/AbstractBean.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/AppVersionView.java
+/Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/ejb/RolEJB.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Permiso.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Prioridad.java
+/Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/PermisoBean.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/bean/EstadoBean.java
 /Users/nelson182py/NetBeansProjects/sigati/src/main/java/py/com/sigati/entities/Rol.java

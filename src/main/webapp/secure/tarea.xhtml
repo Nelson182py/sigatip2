@@ -72,8 +72,8 @@
                                     <h:outputText value="#{task.idPrioridad.nombre}" />
                                 </p:column>
 
-                                <p:column headerText="Estado" sortBy="#{task.idEstado.nombre}" filterBy="#{task.idEstado.nombre}">
-                                    <h:outputText value="#{task.idEstado.nombre}" />
+                                <p:column headerText="Persona" sortBy="#{task.idPersona.nombre}" filterBy="#{task.idPersona.nombre}">
+                                    <h:outputText value="#{task.idPersona.nombre}" />
                                 </p:column>
 
                                 <p:column headerText="Fecha ini. estimada" sortBy="#{task.fchIniEstimada}" >
@@ -132,13 +132,13 @@
                                                          value="#{tareaBean.selected.titulo}"/>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="estado">Estado</label>
-                                            <p:selectOneMenu id="estado" value="#{tareaBean.estadoSeleccionado}"
+                                            <label for="Persona">Persona</label>
+                                            <p:selectOneMenu id="Persona" value="#{tareaBean.PersonaSeleccionado}"
                                                              converter="omnifaces.SelectItemsConverter" style="width: 100% !important;"
                                                              >
 
-                                                <f:selectItems value="#{tareaBean.listaEstados}"
-                                                               var="estado" itemLabel="#{estado.nombre}" itemValue="#{estado}" />
+                                                <f:selectItems value="#{tareaBean.listaPersonas}"
+                                                               var="Persona" itemLabel="#{Persona.nombre}" itemValue="#{Persona}" />
                                             </p:selectOneMenu>
                                         </div>
                                     </div>

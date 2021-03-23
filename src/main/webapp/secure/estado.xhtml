@@ -9,11 +9,11 @@
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml"  >
             <ui:define name="tituloPagina">
-                Estados
+                Personas
             </ui:define>
             <ui:define name="content">
                 <h:form id="formGeneric">
-                    <p:dataTable id="dtGeneric" value="#{estadoBean.listaEstado}" var="row" rows="10" rowKey="#{row.id}"
+                    <p:dataTable id="dtGeneric" value="#{PersonaBean.listaPersona}" var="row" rows="10" rowKey="#{row.id}"
                                  paginator="true" paginatorPosition="bottom" >
 
                         <p:column headerText="Nombre">
@@ -26,14 +26,14 @@
                         <p:column headerText="Acción">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"
-                                                 update="formDlgGeneric" action="#{estadoBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{row}" target="#{estadoBean.estadoSeleccionado}" />
-                                    <f:setPropertyActionListener value="#{true}" target="#{estadoBean.editando}" />
+                                                 update="formDlgGeneric" action="#{PersonaBean.antesActualizar}">
+                                    <f:setPropertyActionListener value="#{row}" target="#{PersonaBean.PersonaSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{PersonaBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar"
-                                                 action="#{estadoBean.eliminar}" update="formGeneric:dtGeneric formGrowl:growl">
-                                    <f:setPropertyActionListener value="#{row}" target="#{estadoBean.estadoSeleccionado}" />
+                                                 action="#{PersonaBean.eliminar}" update="formGeneric:dtGeneric formGrowl:growl">
+                                    <f:setPropertyActionListener value="#{row}" target="#{PersonaBean.PersonaSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
                             </center>
@@ -44,9 +44,9 @@
                     <div class="float-sm-right" style="padding-top: 10px;">
                         <p:commandButton value="Agregar" ajax="true" icon="fa fa-plus-circle"
                                          oncomplete="PF('wbGeneric').show();"
-                                         actionListener="#{estadoBean.agregar}"
+                                         actionListener="#{PersonaBean.agregar}"
                                          update="formDlgGeneric">
-                            <f:setPropertyActionListener value="#{false}" target="#{estadoBean.editando}" />
+                            <f:setPropertyActionListener value="#{false}" target="#{PersonaBean.editando}" />
                         </p:commandButton>
                     </div>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -55,7 +55,7 @@
                     </p:confirmDialog>
                 </h:form>
 
-                <p:dialog id="dlgGeneric" widgetVar="wbGeneric" closeOnEscape="true" closable="true" header="Estado"
+                <p:dialog id="dlgGeneric" widgetVar="wbGeneric" closeOnEscape="true" closable="true" header="Persona"
                           width="550" height="350"  appendTo="@(body)">
                     <h:form id="formDlgGeneric">
                         <div class="bd-example">
@@ -63,24 +63,24 @@
                                 <label for="nombre" class="col-sm-2 col-form-label">Descripción</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="nombre" styleClass="form-control" required="false"
-                                                 value="#{estadoBean.estadoSeleccionado.descripcion}"/>
+                                                 value="#{PersonaBean.PersonaSeleccionado.descripcion}"/>
                                 </div>
                             </div>
                         </div>
 
                         <center>
                             <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
-                                              action="#{estadoBean.guardar}"
+                                              action="#{PersonaBean.guardar}"
                                               update="formGeneric:dtGeneric formGrowl:growl"
                                               process="@this @form"
-                                              rendered="#{!estadoBean.editando}"
+                                              rendered="#{!PersonaBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
-                                              action="#{estadoBean.actualizar}"
+                                              action="#{PersonaBean.actualizar}"
                                               update="formGeneric:dtGeneric formGrowl:growl"
                                               process="@this @form"
-                                              rendered="#{estadoBean.editando}"
+                                              rendered="#{PersonaBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"

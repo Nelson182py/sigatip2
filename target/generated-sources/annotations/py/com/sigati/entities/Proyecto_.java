@@ -10,7 +10,7 @@ import py.com.sigati.entities.Estado;
 import py.com.sigati.entities.Segmento;
 import py.com.sigati.entities.Usuario;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-02-26T22:38:51")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-03-23T10:51:23")
 @StaticMetamodel(Proyecto.class)
 public class Proyecto_ { 
 

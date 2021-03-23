@@ -1,4 +1,5 @@
 py/com/sigati/ejb/EstadoEJB.class
+py/com/sigati/ejb/RolEJB.class
 py/com/sigati/entities/Tarea.class
 py/com/sigati/entities/Incidente_.class
 py/com/sigati/bean/AbstractBean.class
@@ -7,6 +8,7 @@ py/com/sigati/util/LazyTaskDataModel.class
 py/com/sigati/entities/Persona.class
 py/com/sigati/entities/Complejidad.class
 py/com/sigati/entities/Entregable.class
+py/com/sigati/bean/PersonaBean.class
 py/com/sigati/entities/Nacionalidad.class
 py/com/sigati/entities/Proyecto.class
 py/com/sigati/ejb/PermisoEJB.class
@@ -33,10 +35,12 @@ EntityConverter.class
 py/com/sigati/entities/Persona_.class
 py/com/sigati/ejb/AbstractFacade.class
 py/com/sigati/entities/Permiso_.class
+py/com/sigati/ejb/PersonaEJB.class
 py/com/sigati/entities/Proyecto_.class
 py/com/sigati/entities/Incidente.class
 py/com/sigati/entities/Tarea_.class
 py/com/sigati/entities/Entregable_.class
+py/com/sigati/bean/RolBean.class
 py/com/sigati/ejb/UsuarioFacade.class
 py/com/sigati/util/PasswordUtility.class
 py/com/sigati/bean/GrowlView.class
@@ -44,5 +48,6 @@ py/com/sigati/entities/Servicio_.class
 py/com/sigati/entities/Permiso.class
 py/com/sigati/entities/Usuario.class
 py/com/sigati/entities/Rol.class
+py/com/sigati/bean/PermisoBean.class
 py/com/sigati/bean/EstadoBean.class
 py/com/sigati/util/LazySorter.class

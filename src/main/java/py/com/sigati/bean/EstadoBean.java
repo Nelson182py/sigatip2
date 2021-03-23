@@ -26,21 +26,21 @@ import py.com.sigati.entities.Estado;
 public class EstadoBean extends AbstractBean implements Serializable {
 
     private List<Estado> listaEstado = new ArrayList<>();
-    private Estado estadoSeleccionado;
+    private Estado EstadoSeleccionado;
     private boolean editando;
 
     @EJB
-    private EstadoEJB estadoEJB;
+    private EstadoEJB EstadoEJB;
 
     @PostConstruct
     public void init() {
-        estadoSeleccionado = new Estado();
-        listaEstado = estadoEJB.findAll();
+        EstadoSeleccionado = new Estado();
+        listaEstado = EstadoEJB.findAll();
     }
 
     @Override
     public void resetearValores() {
-        estadoSeleccionado = new Estado();
+        EstadoSeleccionado = new Estado();
         editando = false;
     }
 
@@ -52,9 +52,9 @@ public class EstadoBean extends AbstractBean implements Serializable {
     @Override
     public void guardar() {
         try {
-             estadoEJB.create(estadoSeleccionado);
+             EstadoEJB.create(EstadoSeleccionado);
             infoMessage("Se guardó correctamente.");
-            listaEstado = estadoEJB.findAll();
+            listaEstado = EstadoEJB.findAll();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
         } catch (Exception e) {
@@ -65,15 +65,15 @@ public class EstadoBean extends AbstractBean implements Serializable {
     @Override
     public void antesActualizar() {
         editando = true;
-        listaEstado = estadoEJB.findAll();
+        listaEstado = EstadoEJB.findAll();
     }
 
     @Override
     public void actualizar() {
         try {
-            estadoEJB.edit(estadoSeleccionado);
+            EstadoEJB.edit(EstadoSeleccionado);
             infoMessage("Se actualizó correctamente.");
-            listaEstado = estadoEJB.findAll();
+            listaEstado = EstadoEJB.findAll();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
         } catch (Exception e) {
@@ -84,9 +84,9 @@ public class EstadoBean extends AbstractBean implements Serializable {
     @Override
     public void eliminar() {
         try {
-            estadoEJB.remove(estadoSeleccionado);
+            EstadoEJB.remove(EstadoSeleccionado);
             infoMessage("Eliminado correctamente");
-           listaEstado = estadoEJB.findAll();
+           listaEstado = EstadoEJB.findAll();
         } catch (Exception e) {
             errorMessage("No se pudo eliminar el registro");
         }
@@ -95,7 +95,7 @@ public class EstadoBean extends AbstractBean implements Serializable {
 
     public void agregar() {
         resetearValores();
-        listaEstado = estadoEJB.findAll();
+        listaEstado = EstadoEJB.findAll();
     }
 
     public List<Estado> getListaEstado() {
@@ -109,11 +109,11 @@ public class EstadoBean extends AbstractBean implements Serializable {
    
 
     public Estado getEstadoSeleccionado() {
-        return estadoSeleccionado;
+        return EstadoSeleccionado;
     }
 
-    public void setEstadoSeleccionado(Estado estadoSeleccionado) {
-        this.estadoSeleccionado = estadoSeleccionado;
+    public void setEstadoSeleccionado(Estado EstadoSeleccionado) {
+        this.EstadoSeleccionado = EstadoSeleccionado;
     }
 
    

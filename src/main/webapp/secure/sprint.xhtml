@@ -39,8 +39,8 @@
                             </center>
                         </p:column>
 
-                        <p:column headerText="Estado">
-                            <p:outputLabel value="#{sp.idEstado.nombreEstado}" />
+                        <p:column headerText="Persona">
+                            <p:outputLabel value="#{sp.idPersona.nombrePersona}" />
                         </p:column>    
 
                         <p:column headerText="Observación">
@@ -139,14 +139,14 @@
                             </div>  
 
                             <div class="form-group row">
-                                <label for="selPro" class="col-sm-2 col-form-label">Estado</label>
+                                <label for="selPro" class="col-sm-2 col-form-label">Persona</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selPro" value="#{sprintBean.estadoSeleccionado}" 
+                                    <p:selectOneMenu id="selPro" value="#{sprintBean.PersonaSeleccionado}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
 
-                                        <f:selectItems value="#{sprintBean.estadosList}" 
-                                                       var="estado" itemLabel="#{estado.nombreEstado}" itemValue="#{estado}" />
+                                        <f:selectItems value="#{sprintBean.PersonasList}" 
+                                                       var="Persona" itemLabel="#{Persona.nombrePersona}" itemValue="#{Persona}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
@@ -237,7 +237,7 @@
                                                 <p:outputLabel value="#{us.nombreLargo}" />
                                             </p:column>
                 
-                                            <p:column headerText="Estado">
+                                            <p:column headerText="Persona">
                                                 <p:outputLabel value="#{us.nombreLargo}" />
                                             </p:column>
                 

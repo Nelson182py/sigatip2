@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import py.com.sigati.entities.Entregable;
 import py.com.sigati.entities.Tarea;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-02-26T22:38:51")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-03-23T10:51:23")
 @StaticMetamodel(Complejidad.class)
 public class Complejidad_ { 
 

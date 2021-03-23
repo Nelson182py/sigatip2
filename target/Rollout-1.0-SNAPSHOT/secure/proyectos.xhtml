@@ -59,9 +59,9 @@
                             </center>
                         </p:column>
 
-                        <p:column headerText="Estado">
+                        <p:column headerText="Persona">
                             <center>
-                                <p:outputLabel value="#{pro.idEstado.codigo}" />
+                                <p:outputLabel value="#{pro.idPersona.codigo}" />
                             </center>
                         </p:column>
 
@@ -166,13 +166,13 @@
                             </div>  
 
                             <div class="form-group row">
-                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
+                                <label for="selPersona" class="col-sm-2 col-form-label">Persona</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selEstado" value="#{proyectosBean.estadoSeleccionado}" 
+                                    <p:selectOneMenu id="selPersona" value="#{proyectosBean.PersonaSeleccionado}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
 
-                                        <f:selectItems value="#{proyectosBean.listaEstados}" var="estado" itemLabel="#{estado.nombreEstado}" itemValue="#{estado}" />
+                                        <f:selectItems value="#{proyectosBean.listaPersonas}" var="Persona" itemLabel="#{Persona.nombrePersona}" itemValue="#{Persona}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
