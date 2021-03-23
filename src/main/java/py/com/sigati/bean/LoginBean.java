@@ -12,8 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.management.Query;
-import py.com.sigati.ejb.UsuarioFacade;
-
+import py.com.sigati.ejb.UsuarioEJB;
 import py.com.sigati.entities.Usuario;
 import py.com.sigati.util.PasswordUtility;
 
@@ -31,7 +30,7 @@ public class LoginBean implements Serializable {
     private final Query query = new Query();
 
     @EJB
-    UsuarioFacade usuarioEJB;
+    UsuarioEJB usuarioEJB;
 
     public String loginControl() throws Exception {
         usuarioLogueado = usuarioEJB.obtenerUsuario(username);

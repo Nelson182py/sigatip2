@@ -19,7 +19,7 @@ import py.com.sigati.entities.Permiso;
 
 /**
  *
- * @author Juanhi
+ * @author Nelson182py
  */
 @ManagedBean
 @SessionScoped
