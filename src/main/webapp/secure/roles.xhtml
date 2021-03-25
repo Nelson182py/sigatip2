@@ -92,11 +92,20 @@
                                              value="#{rolBean.rolSeleccionado.descripcion}"/>
                             </div>
                         </div>
-
-
                     </div>
-
-
+                     <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Permisos</label>
+                                <div class="col-sm-10">
+                                    
+                                    <p:selectManyCheckbox id="selRol" value="#{rolBean.listaPermisosSeleccionados}" layout="grid" columns="3" 
+                                                          styleClass="grid-checkbox" converter="omnifaces.SelectItemsConverter" style="width: 470px !important">
+                                        <f:selectItems value="#{rolBean.listaPermisosDisponibles}" var="permiso" itemLabel="#{permiso.descripcion}" itemValue="#{permiso}"/>
+                                    </p:selectManyCheckbox>
+                                    
+                                </div>
+                            </div>
+                    
+                    
                     <center>
                         <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
                                           action="#{rolBean.guardar}"

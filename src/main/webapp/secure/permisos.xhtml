@@ -47,7 +47,7 @@
                             </p:commandButton>
 
                             <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                             action="#{permisoBean.eliminar}" update="formPermisos:dtRoles formGrowl:growl">
+                                             action="#{permisoBean.eliminar}" update="formPermisos:dtPermisos formGrowl:growl">
                                 <f:setPropertyActionListener value="#{permiso}" target="#{permisoBean.permisoSeleccionado}" />
                                 <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                             </p:commandButton>
