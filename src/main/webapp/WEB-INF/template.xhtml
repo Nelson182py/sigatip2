@@ -101,13 +101,13 @@
                         <h:form>
                             
                             <p:menu>
-                                <p:submenu label="Actividades">
+                                <p:submenu label="Actividades" rendered="#{rolBean.mostrarMenu('ADMIN')}">
                                     <p:menuitem value="Proyectos" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Incidentes" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Entregabbles" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Tareas" icon="pi pi-refresh"/>
                                 </p:submenu>
-                                <p:submenu label="Gestion">
+                                <p:submenu label="Gestion" rendered="#{rolBean.mostrarMenu('ADMIN2')}">
                                     <p:menuitem value="Personas" action="persona" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Usuarios" action="usuarios" icon="pi pi-refresh"/>
                                     <p:menuitem value="Roles" action="roles" icon="pi pi-refresh"/>
