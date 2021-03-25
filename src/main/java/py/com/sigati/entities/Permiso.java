@@ -10,7 +10,12 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,17 +35,29 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "Permiso.findByDescripcion", query = "SELECT p FROM Permiso p WHERE p.descripcion = :descripcion")})
 public class Permiso implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @OneToMany(mappedBy = "idPermiso")
+    private List<RolPermiso> rolPermisoList;
+
+    
+
+    @OneToMany(mappedBy = "idPermiso")
+    private List<Rol> rolList1;
+
+    @JoinTable(name = "rolpermiso", joinColumns = {
+        @JoinColumn(name = "id_rol", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_rol", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Rol> rolList;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 100)
     @Column(name = "descripcion", length = 100)
     private String descripcion;
-    @OneToMany(mappedBy = "idPermiso")
-    private List<Rol> rolList;
+
 
     public Permiso() {
     }
@@ -97,5 +114,25 @@ public class Permiso implements Serializable {
     public String toString() {
         return "py.com.sigati.entities.Permiso[ id=" + id + " ]";
     }
+
+    public List<Rol> getRolList1() {
+        return rolList1;
+    }
+
+    public void setRolList1(List<Rol> rolList1) {
+        this.rolList1 = rolList1;
+    }
+
+    public List<RolPermiso> getRolPermisoList() {
+        return rolPermisoList;
+    }
+
+    public void setRolPermisoList(List<RolPermiso> rolPermisoList) {
+        this.rolPermisoList = rolPermisoList;
+    }
+
+
+
+
     
 }

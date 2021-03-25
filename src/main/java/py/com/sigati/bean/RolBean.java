@@ -13,9 +13,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
+import py.com.sigati.ejb.PermisoEJB;
 import py.com.sigati.ejb.RolEJB;
+import py.com.sigati.entities.Permiso;
 import py.com.sigati.entities.Rol;
+import py.com.sigati.entities.Usuario;
 
 /**
  *
@@ -28,20 +32,34 @@ public class RolBean extends AbstractBean implements Serializable {
     private List<Rol> listaRol = new ArrayList<>();
     private Rol rolSeleccionado;
     private boolean editando;
+    private List<Permiso> listaPermisosDisponibles = new ArrayList<>(); 
+    private List<Permiso> listaPermisosSeleccionados = new ArrayList<>(); 
 
     @EJB
-    private RolEJB RolEJB;
+    private RolEJB rolEJB;
 
+    @EJB
+    private PermisoEJB permisoEJB;
+    
+    @Inject
+    LoginBean loginBean;
+    
+    
+    
+    
     @PostConstruct
     public void init() {
         rolSeleccionado = new Rol();
-        listaRol = RolEJB.findAll();
+        listaRol = rolEJB.findAll();
+        listaPermisosDisponibles = permisoEJB.findAll();
+      
     }
 
     @Override
     public void resetearValores() {
         rolSeleccionado = new Rol();
         editando = false;
+        listaPermisosSeleccionados = new ArrayList<>();
     }
 
     @Override
@@ -52,11 +70,12 @@ public class RolBean extends AbstractBean implements Serializable {
     @Override
     public void guardar() {
         try {
-             RolEJB.create(rolSeleccionado);
+             
+             rolEJB.create(rolSeleccionado,listaPermisosSeleccionados);
              infoMessage("Se guardó correctamente.");
-             listaRol = RolEJB.findAll();
+             listaRol = rolEJB.findAll();
              resetearValores();
-             PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
+             PrimeFaces.current().executeScript("PF('wbRoles').hide()");
         } catch (Exception e) {
             errorMessage("Se produjo un error.");
         }
@@ -65,17 +84,18 @@ public class RolBean extends AbstractBean implements Serializable {
     @Override
     public void antesActualizar() {
         editando = true;
-        listaRol = RolEJB.findAll();
+        listaRol = rolEJB.findAll();
+        listaPermisosSeleccionados =  rolEJB.findPermisos(rolSeleccionado);
     }
 
     @Override
     public void actualizar() {
         try {
-            RolEJB.edit(rolSeleccionado);
+            rolEJB.edit(rolSeleccionado);
             infoMessage("Se actualizó correctamente.");
-            listaRol = RolEJB.findAll();
+            listaRol = rolEJB.findAll();
             resetearValores();
-            PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
+            PrimeFaces.current().executeScript("PF('wbRoles').hide()");
         } catch (Exception e) {
             errorMessage("Se produjo un error.");
         }
@@ -84,9 +104,9 @@ public class RolBean extends AbstractBean implements Serializable {
     @Override
     public void eliminar() {
         try {
-            RolEJB.remove(rolSeleccionado);
+            rolEJB.remove(rolSeleccionado);
             infoMessage("Eliminado correctamente");
-           listaRol = RolEJB.findAll();
+            listaRol = rolEJB.findAll();
         } catch (Exception e) {
             errorMessage("No se pudo eliminar el registro");
         }
@@ -95,7 +115,7 @@ public class RolBean extends AbstractBean implements Serializable {
 
     public void agregar() {
         resetearValores();
-        listaRol = RolEJB.findAll();
+        listaRol = rolEJB.findAll();
     }
 
     public List<Rol> getListaRol() {
@@ -116,8 +136,6 @@ public class RolBean extends AbstractBean implements Serializable {
         this.rolSeleccionado = RolSeleccionado;
     }
 
-   
-
     public boolean isEditando() {
         return editando;
     }
@@ -126,4 +144,49 @@ public class RolBean extends AbstractBean implements Serializable {
         this.editando = editando;
     }
 
+    List<Rol> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public List<Permiso> getListaPermisosDisponibles() {
+        return listaPermisosDisponibles;
+    }
+
+    public void setListaPermisosDisponibles(List<Permiso> listaPermisosDisponibles) {
+        this.listaPermisosDisponibles = listaPermisosDisponibles;
+    }
+
+    public List<Permiso> getListaPermisosSeleccionados() {
+        return listaPermisosSeleccionados;
+    }
+
+    public void setListaPermisosSeleccionados(List<Permiso> listaPermisosSeleccionados) {
+        this.listaPermisosSeleccionados = listaPermisosSeleccionados;
+    }
+
+    public RolEJB getRolEJB() {
+        return rolEJB;
+    }
+
+    public void setRolEJB(RolEJB RolEJB) {
+        this.rolEJB = RolEJB;
+    }
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
+    }
+
+    public boolean mostrarMenu(String rol){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(rol)){
+               return true;
+           }            
+        }
+        return false;
+    }
 }

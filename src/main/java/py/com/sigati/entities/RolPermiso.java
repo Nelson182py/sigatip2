@@ -6,7 +6,6 @@
 package py.com.sigati.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,52 +13,41 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author nelson182py
  */
 @Entity
-@Table(name = "rol")
+@Table(name = "rol_permiso")
 @NamedQueries({
-    @NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r")
-    , @NamedQuery(name = "Rol.findById", query = "SELECT r FROM Rol r WHERE r.id = :id")
-    , @NamedQuery(name = "Rol.findByDescripcion", query = "SELECT r FROM Rol r WHERE r.descripcion = :descripcion")})
-public class Rol implements Serializable {
-
-    @OneToMany(mappedBy = "idRol")
-    private List<RolPermiso> rolPermisoList;
-
-   
-
+    @NamedQuery(name = "RolPermiso.findAll", query = "SELECT r FROM RolPermiso r")
+    , @NamedQuery(name = "RolPermiso.findById", query = "SELECT r FROM RolPermiso r WHERE r.id = :id")})
+public class RolPermiso implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Size(max = 100)
-    @Column(name = "descripcion", length = 100)
-    private String descripcion;
     @JoinColumn(name = "id_permiso", referencedColumnName = "id")
     @ManyToOne
     private Permiso idPermiso;
-    @OneToMany(mappedBy = "idRol")
-    private List<Usuario> usuarioList;
+    @JoinColumn(name = "id_rol", referencedColumnName = "id")
+    @ManyToOne
+    private Rol idRol;
 
-    public Rol() {
+    public RolPermiso() {
     }
 
-    public Rol(Integer id) {
+    public RolPermiso(Integer id) {
         this.id = id;
     }
 
@@ -71,14 +59,6 @@ public class Rol implements Serializable {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public Permiso getIdPermiso() {
         return idPermiso;
     }
@@ -87,12 +67,12 @@ public class Rol implements Serializable {
         this.idPermiso = idPermiso;
     }
 
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public Rol getIdRol() {
+        return idRol;
     }
 
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
+    public void setIdRol(Rol idRol) {
+        this.idRol = idRol;
     }
 
     @Override
@@ -105,10 +85,10 @@ public class Rol implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Rol)) {
+        if (!(object instanceof RolPermiso)) {
             return false;
         }
-        Rol other = (Rol) object;
+        RolPermiso other = (RolPermiso) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,18 +97,7 @@ public class Rol implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Rol[ id=" + id + " ]";
+        return "py.com.sigati.entities.RolPermiso[ id=" + id + " ]";
     }
-
-    public List<RolPermiso> getRolPermisoList() {
-        return rolPermisoList;
-    }
-
-    public void setRolPermisoList(List<RolPermiso> rolPermisoList) {
-        this.rolPermisoList = rolPermisoList;
-    }
-
- 
- 
     
 }

@@ -37,6 +37,13 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "Usuario.findByCorreoCorporativo", query = "SELECT u FROM Usuario u WHERE u.correoCorporativo = :correoCorporativo")})
 public class Usuario implements Serializable {
 
+    @Size(max = 2147483647)
+    @Column(name = "usuario", length = 2147483647)
+    private String usuario;
+    @Size(max = 2147483647)
+    @Column(name = "contrasenha", length = 2147483647)
+    private String contrasenha;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -175,6 +182,26 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "py.com.sigati.entities.Usuario[ codigoHumano=" + codigoHumano + " ]";
+    }
+
+    public void setPassword(String saltedHash) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContrasenha() {
+        return contrasenha;
+    }
+
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
     }
     
 }
