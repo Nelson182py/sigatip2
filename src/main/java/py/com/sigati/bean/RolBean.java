@@ -43,10 +43,7 @@ public class RolBean extends AbstractBean implements Serializable {
     
     @Inject
     LoginBean loginBean;
-    
-    
-    
-    
+     
     @PostConstruct
     public void init() {
         rolSeleccionado = new Rol();
@@ -126,7 +123,9 @@ public class RolBean extends AbstractBean implements Serializable {
         this.listaRol = listaRol;
     }
 
-   
+    public String salir(){        
+        return "login_b";
+    }
 
     public Rol getRolSeleccionado() {
         return rolSeleccionado;
@@ -182,8 +181,84 @@ public class RolBean extends AbstractBean implements Serializable {
 
     public boolean mostrarMenu(String rol){        
         Usuario u =  loginBean.getUsuarioLogueado();
+        
         if (u != null){
            if( u.getIdRol().getDescripcion().equals(rol)){
+               return true;
+           }            
+        }
+        return false;
+    }
+    
+    // Puede acceder ADMIN, PM, LIDERTECNICO
+    public boolean mostrarMenuActividades(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        
+        String admin = "Administrador";
+        String pM = "Project Manager";
+        String liderTecnico = "Lider Tecnico";
+        String analista = "Analista";        
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ){
+               return true;
+           }            
+        }
+        return false;
+    }
+    
+    // Puede acceder ADMIN, PM, LIDERTECNICO
+    public boolean mostrarMenuGestion(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        
+        String admin = "Administrador";
+        String pM = "Project Manager";
+        String liderTecnico = "Lider Tecnico";
+        String analista = "Analista";        
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ){
+               return true;
+           }            
+        }
+        return false;
+    }
+    
+    // Puede acceder ADMIN
+    public boolean mostrarMenuParametrizacion(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        
+        String admin = "Administrador";
+        String pM = "Project Manager";
+        String liderTecnico = "Lider Tecnico";
+        String analista = "Analista";        
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ){
+               return true;
+           }            
+        }
+        return false;
+    }
+    
+    // Puede acceder ADMIN, PM, LIDERTECNICO y ANALISTA
+    public boolean mostrarMenuInformes(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        
+        String admin = "Administrador";
+        String pM = "Project Manager";
+        String liderTecnico = "Lider Tecnico";
+        String analista = "Analista";        
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(analista) ){
                return true;
            }            
         }
