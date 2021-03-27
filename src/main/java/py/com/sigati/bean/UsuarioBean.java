@@ -12,12 +12,18 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
+import py.com.sigati.ejb.AreaEJB;
+import py.com.sigati.ejb.PersonaEJB;
 import py.com.sigati.entities.Rol;
 import py.com.sigati.entities.Usuario;
 import py.com.sigati.util.PasswordUtility;
 import py.com.sigati.ejb.RolEJB;
+import py.com.sigati.ejb.UsuarioEJB;
+import py.com.sigati.entities.Area;
+import py.com.sigati.entities.Persona;
 /**
  *
  * @author Nelson182py
@@ -26,29 +32,42 @@ import py.com.sigati.ejb.RolEJB;
 @SessionScoped
 public class UsuarioBean extends AbstractBean implements Serializable {
 	@EJB
-	private UsuarioBean usuarioEJB;
+	private UsuarioEJB usuarioEJB;
 	@EJB
-	private RolBean rolEJB;
+	private RolEJB rolEJB;
+        @EJB
+	private PersonaEJB personaEJB;     
+        @EJB
+	private AreaEJB areaEJB;
+        
 	private List<Usuario> listaUsuarios = new ArrayList<>();
 	private Usuario usuarioSeleccionado;
 	private Rol rolSeleccionado;
 	private List<Rol> listaRoles = new ArrayList<>();
-	private boolean editando;
+        private Persona personaSeleccionada;
+    	private List<Persona> listaPersonas = new ArrayList<>();
+        private Area areaSeleccionada;
+        private List<Area> listaAreas = new ArrayList<>();
+        private boolean editando;
 
 	@PostConstruct
 	public void init() {
 		listaUsuarios = usuarioEJB.findAll();
 		listaRoles = rolEJB.findAll();
-		usuarioSeleccionado = new Usuario();
+		listaPersonas = personaEJB.findAll();
+                listaAreas = areaEJB.findAll();
+                usuarioSeleccionado = new Usuario();
 	}
 
 	@Override
 	public void guardar() {
 		try {
 			usuarioSeleccionado.setIdRol(rolSeleccionado);
-			//usuarioSeleccionado.setPassword(DigestUtils.md5Hex("12345").hashCode() + "");
-			usuarioSeleccionado.setPassword(PasswordUtility.getSaltedHash("12345"));
-			usuarioEJB.create(usuarioSeleccionado);
+                        usuarioSeleccionado.setIdArea(areaSeleccionada);
+                        usuarioSeleccionado.setIdPersona(personaSeleccionada);
+                        //usuarioSeleccionado.setPassword(DigestUtils.md5Hex("12345").hashCode() + "");
+			//usuarioSeleccionado.setPassword(PasswordUtility.getSaltedHash("12345"));
+                        usuarioEJB.create(usuarioSeleccionado);
 			infoMessage("Se guardó correctamente.");
 			listaUsuarios = usuarioEJB.findAll();
 			resetearValores();
@@ -64,6 +83,8 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 		resetearValores();
 		listaUsuarios = usuarioEJB.findAll();
 		listaRoles = rolEJB.findAll();
+                listaPersonas = personaEJB.findAll();
+                listaAreas = areaEJB.findAll();
 	}
 
 	public List<Usuario> getListaUsuarios() {
@@ -122,6 +143,8 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 	public void antesActualizar() {
 		listaUsuarios = usuarioEJB.findAll();
 		listaRoles = rolEJB.findAll();
+                listaPersonas = personaEJB.findAll();
+                listaAreas = areaEJB.findAll();
 		rolSeleccionado = usuarioSeleccionado.getIdRol();
 		editando = true;
 	}
@@ -152,6 +175,22 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 			errorMessage("No se pudo eliminar el registro");
 		}
 	}
+        public List<Persona> getListaPersonas() {
+        return listaPersonas;
+    }
+
+    public void setListaPersonas(List<Persona> listaPersonas) {
+        this.listaPersonas = listaPersonas;
+    }
+
+    public List<Area> getListaAreas() {
+        return listaAreas;
+    }
+
+    public void setListaAreas(List<Area> listaAreas) {
+        this.listaAreas = listaAreas;
+    }
+
 
     private List<Usuario> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -167,6 +206,22 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 
     private void edit(Usuario usuarioSeleccionado) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Persona getPersonaSeleccionada() {
+        return personaSeleccionada;
+    }
+
+    public void setPersonaSeleccionada(Persona personaSeleccionada) {
+        this.personaSeleccionada = personaSeleccionada;
+    }
+
+    public Area getAreaSeleccionada() {
+        return areaSeleccionada;
+    }
+
+    public void setAreaSeleccionada(Area areaSeleccionada) {
+        this.areaSeleccionada = areaSeleccionada;
     }
 
 }
