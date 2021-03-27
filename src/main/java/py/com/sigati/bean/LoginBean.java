@@ -33,6 +33,7 @@ public class LoginBean implements Serializable {
     UsuarioEJB usuarioEJB;
 
     public String loginControl() throws Exception {
+
         usuarioLogueado = usuarioEJB.obtenerUsuario(username);
         if (usuarioLogueado != null) {
            // if (username.equals(usuarioLogueado.()) && PasswordUtility.check(password, usuarioLogueado.getPassword())) {
@@ -42,10 +43,10 @@ public class LoginBean implements Serializable {
             //}
         }
                 
-//        if (username.trim().equals(password.trim())) {
-//            System.out.println("ingresado al sistema ");
-//            return "paginaPrincipal";
-//        }
+        if (username.trim().equals(password.trim())) {
+            System.out.println("ingresado al sistema ");
+            return "paginaPrincipal";
+        }
 
         FacesContext context = FacesContext.getCurrentInstance();
 
