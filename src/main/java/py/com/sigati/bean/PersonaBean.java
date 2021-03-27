@@ -14,8 +14,14 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
+import py.com.sigati.ejb.NacionalidadEJB;
 import py.com.sigati.ejb.PersonaEJB;
+import py.com.sigati.entities.Nacionalidad;
+import py.com.sigati.entities.Permiso;
 import py.com.sigati.entities.Persona;
+import py.com.sigati.entities.Rol;
+import py.com.sigati.entities.RolPermiso;
+import py.com.sigati.entities.Usuario;
 
 /**
  *
@@ -26,16 +32,30 @@ import py.com.sigati.entities.Persona;
 public class PersonaBean extends AbstractBean implements Serializable {
 
     private List<Persona> listaPersona = new ArrayList<>();
+    private List<Nacionalidad> listaNacionalidades = new ArrayList<>();
     private Persona personaSeleccionado;
+    private Nacionalidad nacionalidadSeleccionada;
+
     private boolean editando;
+    private String alta = "alta";
+    private String baja = "baja";
+    private String modificacion = "modificacion";
+    private String completo = "completo"; 
+    private String ninguno = "ninguno";
+    private String informes = "informes"; 
+        
 
     @EJB
-    private PersonaEJB PersonaEJB;
+    private PersonaEJB personaEJB;
+    @EJB
+    private NacionalidadEJB nacionalidadEJB;
 
+    
     @PostConstruct
     public void init() {
         personaSeleccionado = new Persona();
-        listaPersona = PersonaEJB.findAll();
+        listaNacionalidades = nacionalidadEJB.findAll();
+        listaPersona = personaEJB.findAll();
     }
 
     @Override
@@ -52,9 +72,10 @@ public class PersonaBean extends AbstractBean implements Serializable {
     @Override
     public void guardar() {
         try {
-             PersonaEJB.create(personaSeleccionado);
+            personaSeleccionado.setIdNacionalidad(nacionalidadSeleccionada);
+            personaEJB.create(personaSeleccionado);
             infoMessage("Se guardó correctamente.");
-            listaPersona = PersonaEJB.findAll();
+            listaPersona = personaEJB.findAll();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
         } catch (Exception e) {
@@ -65,15 +86,16 @@ public class PersonaBean extends AbstractBean implements Serializable {
     @Override
     public void antesActualizar() {
         editando = true;
-        listaPersona = PersonaEJB.findAll();
+        listaPersona = personaEJB.findAll();
+        listaNacionalidades = nacionalidadEJB.findAll();
     }
 
     @Override
     public void actualizar() {
         try {
-            PersonaEJB.edit(personaSeleccionado);
+            personaEJB.edit(personaSeleccionado);
             infoMessage("Se actualizó correctamente.");
-            listaPersona = PersonaEJB.findAll();
+            listaPersona = personaEJB.findAll();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
         } catch (Exception e) {
@@ -84,9 +106,9 @@ public class PersonaBean extends AbstractBean implements Serializable {
     @Override
     public void eliminar() {
         try {
-            PersonaEJB.remove(personaSeleccionado);
+            personaEJB.remove(personaSeleccionado);
             infoMessage("Eliminado correctamente");
-           listaPersona = PersonaEJB.findAll();
+            listaPersona = personaEJB.findAll();
         } catch (Exception e) {
             errorMessage("No se pudo eliminar el registro");
         }
@@ -95,7 +117,7 @@ public class PersonaBean extends AbstractBean implements Serializable {
 
     public void agregar() {
         resetearValores();
-        listaPersona = PersonaEJB.findAll();
+        listaPersona = personaEJB.findAll();
     }
 
     public List<Persona> getListaPersona() {
@@ -106,7 +128,13 @@ public class PersonaBean extends AbstractBean implements Serializable {
         this.listaPersona = listaPersona;
     }
 
-   
+    public List<Nacionalidad> getListaNacionalidades() {
+        return listaNacionalidades;
+    }
+
+    public void setListaNacionalidades(List<Nacionalidad> listaNacionalidades) {
+        this.listaNacionalidades = listaNacionalidades;
+    }
 
     public Persona getPersonaSeleccionado() {
         return personaSeleccionado;
@@ -116,8 +144,6 @@ public class PersonaBean extends AbstractBean implements Serializable {
         this.personaSeleccionado = PersonaSeleccionado;
     }
 
-   
-
     public boolean isEditando() {
         return editando;
     }
@@ -125,5 +151,27 @@ public class PersonaBean extends AbstractBean implements Serializable {
     public void setEditando(boolean editando) {
         this.editando = editando;
     }
+    
+    public Nacionalidad getNacionalidadSeleccionada() {
+        return nacionalidadSeleccionada;
+    }
 
+    public void setNacionalidadSeleccionada(Nacionalidad nacionalidadSeleccionada) {
+        this.nacionalidadSeleccionada = nacionalidadSeleccionada;
+    }
+    // Puede acceder modificacion y total
+    public boolean mostrarNuevo(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        Rol r = u.getIdRol();
+        List<RolPermiso> permisos = r.getRolPermisoList();
+        
+        for(RolPermiso p:permisos){                 
+            if (p != null){
+                if( p.getIdPermiso().getDescripcion().equals(alta) ||
+                    p.getIdPermiso().getDescripcion().equals(alta))
+                return true;
+            }            
+        }
+        return false;
+    }
 }
