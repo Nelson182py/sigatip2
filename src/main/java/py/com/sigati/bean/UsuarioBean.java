@@ -24,6 +24,7 @@ import py.com.sigati.ejb.RolEJB;
 import py.com.sigati.ejb.UsuarioEJB;
 import py.com.sigati.entities.Area;
 import py.com.sigati.entities.Persona;
+import py.com.sigati.entities.RolPermiso;
 /**
  *
  * @author Nelson182py
@@ -49,7 +50,13 @@ public class UsuarioBean extends AbstractBean implements Serializable {
         private Area areaSeleccionada;
         private List<Area> listaAreas = new ArrayList<>();
         private boolean editando;
-
+        private String alta = "alta";
+        private String baja = "baja";
+        private String modificacion = "modificacion";
+        private String completo = "completo"; 
+        private String ninguno = "ninguno";
+        private String informes = "informes"; 
+    
 	@PostConstruct
 	public void init() {
 		listaUsuarios = usuarioEJB.findAll();
@@ -177,6 +184,22 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 	}
         public List<Persona> getListaPersonas() {
         return listaPersonas;
+    }
+        
+    // Puede acceder modificacion y total
+    public boolean mostrarNuevo(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        Rol r = u.getIdRol();
+        List<RolPermiso> permisos = r.getRolPermisoList();
+        
+        for(RolPermiso p:permisos){                 
+            if (p != null){
+                if( p.getIdPermiso().getDescripcion().equals(alta) ||
+                    p.getIdPermiso().getDescripcion().equals(alta))
+                return true;
+            }            
+        }
+        return false;
     }
 
     public void setListaPersonas(List<Persona> listaPersonas) {
