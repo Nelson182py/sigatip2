@@ -42,48 +42,19 @@
                 <li class="nav-item text-nowrap">
                     <h:form>
                         <p:menubar>
-<!--                            <p:submenu label="File" icon="pi pi-fw pi-file">
-                                <p:submenu label="New" icon="pi pi-fw pi-plus">
-                                    <p:menuitem value="Bookmark" icon="pi pi-fw pi-bookmark" url="#"/>
-                                    <p:menuitem value="Video" icon="pi pi-fw pi-video" url="#"/>
+                            <p:submenu label="Notificaciones" icon="pi pi-external-link">
+                                <p:submenu label="Envios" icon="pi pi-external-link">
+                                    <p:menuitem value="Mensajes" icon="pi pi-fw pi-file"/>
+                                    <p:menuitem value="Correos" icon="pi pi-fw pi-file"/>
                                 </p:submenu>
-                                <p:menuitem value="Delete" icon="pi pi-fw pi-trash" url="#"/>
-
-                                <p:menuitem value="Export" icon="pi pi-fw pi-external-link" url="#"/>
-                            </p:submenu>-->
-
-<!--                            <p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-                                <p:menuitem value="Left" url="#" icon="pi pi-fw pi-align-left"/>
-                                <p:menuitem value="Right" url="#" icon="pi pi-fw pi-align-right"/>
-                                <p:menuitem value="Center" url="#" icon="pi pi-fw pi-align-center"/>
-                                <p:menuitem value="Justify" url="#" icon="pi pi-fw pi-align-justify"/>
-                            </p:submenu>-->
-
-<!--                            <p:submenu label="Users" icon="pi pi-fw pi-user">
-                                <p:menuitem value="New" icon="pi pi-fw pi-user-plus" url="#"/>
-                                <p:menuitem value="Delete" icon="pi pi-fw pi-user-minus" url="#"/>
-                                <p:submenu label="Search" icon="pi pi-fw pi-users">
-                                    <p:submenu label="Filter" icon="pi pi-fw pi-filter">
-                                        <p:menuitem value="Print" icon="pi pi-fw pi-print" url="#"/>
-                                    </p:submenu>
-                                    <p:menuitem value="List" icon="pi pi-fw pi-bars" url="#"/>
-                                </p:submenu>
-                            </p:submenu>-->
-
-                            <p:submenu label="Notificaciones" icon="pi pi-fw pi-calendar">
-                                <p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-                                    <p:menuitem value="Save" icon="pi pi-fw pi-calendar-plus"/>
-                                    <p:menuitem value="Delete" icon="pi pi-fw pi-calendar-minus"/>
-                                </p:submenu>
-                                <p:submenu label="Archieve" icon="pi pi-fw pi-calendar-times">
-                                    <p:menuitem value="Remove" icon="pi pi-fw pi-calendar-minus"/>
+                                <p:submenu label="Alarmas" icon="pi pi-fw pi-calendar">
+                                    <p:menuitem value="Configuracion" icon="pi pi-fw pi-file"/>
                                 </p:submenu>
                             </p:submenu>
 
-                            <p:menuitem value="Configuracion" icon="pi pi-fw pi-pencil"/>
-<!--                            <p:menuitem value="Quit" icon="pi pi-fw pi-power-off"/>-->
+                            <p:menuitem value="Configuracion" icon="pi pi-cog"/>
                             <f:facet name="options">
-                                <p:button value="Cerrar sesion" icon="pi pi-fw pi-sign-out" styleClass="rounded-button ui-button-info"/>
+                                <p:button value="Cerrar sesion" onclick="#{rolBean.salir()}" icon="pi pi-fw pi-sign-out" styleClass="rounded-button ui-button-info"/>
                             </f:facet>
                         </p:menubar>
                     </h:form>
@@ -101,19 +72,19 @@
                         <h:form>
                             
                             <p:menu>
-                                <p:submenu label="Actividades" rendered="#{rolBean.mostrarMenu('ADMIN')}">
+                                <p:submenu label="Actividades" rendered="#{rolBean.mostrarMenuActividades()}">
                                     <p:menuitem value="Proyectos" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Incidentes" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Entregabbles" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Tareas" icon="pi pi-refresh"/>
                                 </p:submenu>
-                                <p:submenu label="Gestion" rendered="#{rolBean.mostrarMenu('ADMIN2')}">
+                                <p:submenu label="Gestion" rendered="#{rolBean.mostrarMenuGestion()}">
                                     <p:menuitem value="Personas" action="persona" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Usuarios" action="usuarios" icon="pi pi-refresh"/>
                                     <p:menuitem value="Roles" action="roles" icon="pi pi-refresh"/>
                                     <p:menuitem value="Permisos" action="permisos" icon="pi pi-refresh"/>                                    
                                 </p:submenu>
-                                <p:submenu label="Parametrizacion">
+                                <p:submenu label="Parametrizacion" rendered="#{rolBean.mostrarMenuParametrizacion()}">
                                     <p:menuitem value="Ambiente" action="ambiente" icon="pi pi-refresh"/>
                                     <p:menuitem value="Area" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Complejidad" ajax="false" icon="pi pi-refresh"/>
@@ -123,7 +94,7 @@
                                     <p:menuitem value="Segmentos" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Servicios" ajax="false" icon="pi pi-refresh"/>
                                 </p:submenu>
-                                <p:submenu label="Informes">
+                                <p:submenu label="Informes" rendered="#{rolBean.mostrarMenuInformes()}">
                                     <p:menuitem value="Consolidados " url="http://www.primefaces.org" icon="pi pi-refresh"/>
                                     <p:menuitem value=" Generales" icon="pi pi-refresh"/>
                                 </p:submenu>
