@@ -8,14 +8,14 @@ package py.com.sigati.ejb;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import py.com.sigati.entities.Persona;
+import py.com.sigati.entities.Area;
 
 /**
  *
  * @author Nelson182py
  */
 @Stateless
-public class PersonaEJB extends AbstractFacade<Persona> {
+public class AreaEJB extends AbstractFacade<Area> {
 
     @PersistenceContext(unitName = "com.mycompany_Rollout_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class PersonaEJB extends AbstractFacade<Persona> {
         return em;
     }
 
-    public PersonaEJB() {
-        super(Persona.class);
+    public AreaEJB() {
+        super(Area.class);
     }
 
 
