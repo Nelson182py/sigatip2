@@ -19,6 +19,7 @@ import py.com.sigati.ejb.PermisoEJB;
 import py.com.sigati.ejb.RolEJB;
 import py.com.sigati.entities.Permiso;
 import py.com.sigati.entities.Rol;
+import py.com.sigati.entities.RolPermiso;
 import py.com.sigati.entities.Usuario;
 
 /**
@@ -34,7 +35,13 @@ public class RolBean extends AbstractBean implements Serializable {
     private boolean editando;
     private List<Permiso> listaPermisosDisponibles = new ArrayList<>(); 
     private List<Permiso> listaPermisosSeleccionados = new ArrayList<>(); 
-
+    private String alta = "alta";
+    private String baja = "baja";
+    private String modificacion = "modificacion";
+    private String completo = "completo"; 
+    private String ninguno = "ninguno";
+    private String informes = "informes"; 
+    
     @EJB
     private RolEJB rolEJB;
 
@@ -110,6 +117,22 @@ public class RolBean extends AbstractBean implements Serializable {
 
     }
 
+    // Puede acceder modificacion y total
+    public boolean mostrarNuevo(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        Rol r = u.getIdRol();
+        List<RolPermiso> permisos = r.getRolPermisoList();
+        
+        for(RolPermiso p:permisos){                 
+            if (p != null){
+                if( p.getIdPermiso().getDescripcion().equals(alta) ||
+                    p.getIdPermiso().getDescripcion().equals(alta))
+                return true;
+            }            
+        }
+        return false;
+    }
+    
     public void agregar() {
         resetearValores();
         listaRol = rolEJB.findAll();
