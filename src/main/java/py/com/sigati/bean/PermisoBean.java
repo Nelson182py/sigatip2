@@ -56,7 +56,7 @@ public class PermisoBean extends AbstractBean implements Serializable {
             infoMessage("Se guardó correctamente.");
             listaPermiso = PermisoEJB.findAll();
             resetearValores();
-            PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
+            PrimeFaces.current().executeScript("PF('wbPermisos').hide()");
         } catch (Exception e) {
             errorMessage("Se produjo un error.");
         }
