@@ -16,6 +16,9 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
 import py.com.sigati.ejb.PermisoEJB;
 import py.com.sigati.entities.Permiso;
+import py.com.sigati.entities.Rol;
+import py.com.sigati.entities.RolPermiso;
+import py.com.sigati.entities.Usuario;
 
 /**
  *
@@ -28,7 +31,13 @@ public class PermisoBean extends AbstractBean implements Serializable {
     private List<Permiso> listaPermiso = new ArrayList<>();
     private Permiso permisoSeleccionado;
     private boolean editando;
-
+    private String alta = "alta";
+    private String baja = "baja";
+    private String modificacion = "modificacion";
+    private String completo = "completo"; 
+    private String ninguno = "ninguno";
+    private String informes = "informes"; 
+    
     @EJB
     private PermisoEJB PermisoEJB;
 
@@ -93,6 +102,17 @@ public class PermisoBean extends AbstractBean implements Serializable {
 
     }
 
+    public boolean mostrarMenu(String rol){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(rol)){
+               return true;
+           }            
+        }
+        return false;
+    }
+    
     public void agregar() {
         resetearValores();
         listaPermiso = PermisoEJB.findAll();
@@ -124,6 +144,22 @@ public class PermisoBean extends AbstractBean implements Serializable {
 
     public void setEditando(boolean editando) {
         this.editando = editando;
+    }
+    
+    // Puede acceder modificacion y total
+    public boolean mostrarNuevo(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+        Rol r = u.getIdRol();
+        List<RolPermiso> permisos = r.getRolPermisoList();
+        
+        for(RolPermiso p:permisos){                 
+            if (p != null){
+                if( p.getIdPermiso().getDescripcion().equals(alta) ||
+                    p.getIdPermiso().getDescripcion().equals(alta))
+                return true;
+            }            
+        }
+        return false;
     }
 
 }
