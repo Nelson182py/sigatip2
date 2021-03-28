@@ -40,7 +40,7 @@ public class RolBean extends AbstractBean implements Serializable {
     private String modificacion = "modificacion";
     private String completo = "completo"; 
     private String ninguno = "ninguno";
-    private String informes = "informes"; 
+    private String informes = "descarga"; 
     
     @EJB
     private RolEJB rolEJB;
@@ -94,7 +94,15 @@ public class RolBean extends AbstractBean implements Serializable {
 
     @Override
     public void actualizar() {
-        try {
+            try {
+            /*    for(Permiso p:listaPermisosSeleccionados){
+                    RolPermiso rolPermiso = new RolPermiso();
+                    rolPermiso.setIdPermiso(p);
+                    rolPermiso.setIdRol(rol);
+                    rolPermisoEJB.create(rolPermiso);
+            
+            }
+            rolSeleccionado.setRolPermisoList(rolPermisoList); .setRolPermisoList(listaPermisosSeleccionados);*/
             rolEJB.edit(rolSeleccionado);
             infoMessage("Se actualizó correctamente.");
             listaRol = rolEJB.findAll();

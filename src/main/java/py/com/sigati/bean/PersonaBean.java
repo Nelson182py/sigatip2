@@ -42,7 +42,7 @@ public class PersonaBean extends AbstractBean implements Serializable {
     private String modificacion = "modificacion";
     private String completo = "completo"; 
     private String ninguno = "ninguno";
-    private String informes = "informes"; 
+    private String informes = "descarga"; 
         
 
     @EJB
