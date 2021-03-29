@@ -42,6 +42,8 @@
                 <li class="nav-item text-nowrap">
                     <h:form>
                         <p:menubar>
+                            <p:menuitem icon="pi pi-fw pi-user" value="#{loginBean.username}" />
+                            
                             <p:submenu label="Notificaciones" icon="pi pi-external-link">
                                 <p:submenu label="Envios" icon="pi pi-external-link">
                                     <p:menuitem value="Mensajes" icon="pi pi-fw pi-file"/>
@@ -53,15 +55,30 @@
                             </p:submenu>
 
                             <p:menuitem value="Configuracion" icon="pi pi-cog"/>
-                            <f:facet name="options">
-                                <p:button value="Cerrar sesion" onclick="#{rolBean.salir()}" icon="pi pi-fw pi-sign-out" styleClass="rounded-button ui-button-info"/>
+                            
+                            <p:menuitem action="#{loginBean.logout}" value="Cerrar sesion" icon="pi pi-fw pi-power-off"/>
+                            
+                            <!--<f:facet name="nombre">
+                                <a class="navbar-brand col-sm-3 col-md-2 mr-0" title="#{loginBean.username}" href="#">#{loginBean.username}</a>
                             </f:facet>
+                            <f:facet name="cerrar">
+                                <p:commandLink value="Cerrar sesión" action="#{loginBean.logout}" />
+                            </f:facet>-->
                         </p:menubar>
                     </h:form>
                 </li>
             </ul>
         </nav>
-
+        <!--<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" title="#{loginBean.username}" href="#">#{loginBean.username}</a>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <h:form>
+                        <p:commandLink value="Cerrar sesión" action="#{loginBean.logout}" />
+                    </h:form>
+                </li>
+            </ul>
+        </nav>-->
         
         <div class="container-fluid" >
             <div class="row">
@@ -106,20 +123,21 @@
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                         <h1 class="h2"><ui:insert name="tituloPagina" /></h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group mr-2">
+                        <!--    
+                        <div class="btn-group mr-2">
                                 <button class="btn btn-sm btn-outline-secondary">Compartir</button>
                                 <button class="btn btn-sm btn-outline-secondary">Exportar</button>
                             </div>
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
                                 <span data-feather="calendar"></span>
                                 Semanal
-                            </button>
+                            </button>-->
                         </div>
                     </div>
                     <ui:insert name="content">
 
                     </ui:insert>
-                </main>
+                </main> 
             </div>
             <div style="float: right;">
                 <footer>
