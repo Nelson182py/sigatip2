@@ -73,14 +73,14 @@ public class UsuarioBean extends AbstractBean implements Serializable {
                         usuarioSeleccionado.setIdArea(areaSeleccionada);
                         usuarioSeleccionado.setIdPersona(personaSeleccionada);
                         //usuarioSeleccionado.setPassword(DigestUtils.md5Hex("12345").hashCode() + "");
-			//usuarioSeleccionado.setPassword(PasswordUtility.getSaltedHash("12345"));
+			usuarioSeleccionado.setContrasenha(PasswordUtility.getSaltedHash("12345"));
                         usuarioEJB.create(usuarioSeleccionado);
 			infoMessage("Se guardó correctamente.");
 			listaUsuarios = usuarioEJB.findAll();
 			resetearValores();
 			PrimeFaces.current().executeScript("PF('wbUsuarios').hide()");
 		} catch (Exception e) {
-			errorMessage("Se produjo un error.");
+			errorMessage("Se produjo un error."+e);
 		}
 
 

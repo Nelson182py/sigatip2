@@ -95,15 +95,8 @@ public class RolBean extends AbstractBean implements Serializable {
     @Override
     public void actualizar() {
             try {
-            /*    for(Permiso p:listaPermisosSeleccionados){
-                    RolPermiso rolPermiso = new RolPermiso();
-                    rolPermiso.setIdPermiso(p);
-                    rolPermiso.setIdRol(rol);
-                    rolPermisoEJB.create(rolPermiso);
-            
-            }
-            rolSeleccionado.setRolPermisoList(rolPermisoList); .setRolPermisoList(listaPermisosSeleccionados);*/
-            rolEJB.edit(rolSeleccionado);
+
+            rolEJB.edit(rolSeleccionado,listaPermisosSeleccionados);
             infoMessage("Se actualizó correctamente.");
             listaRol = rolEJB.findAll();
             resetearValores();
