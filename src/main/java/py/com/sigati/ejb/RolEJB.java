@@ -27,6 +27,9 @@ public class RolEJB extends AbstractFacade<Rol> {
     @EJB
     RolPermisoEJB rolPermisoEJB;
     
+    @EJB
+    PermisoEJB permisoEJB;
+    
     @PersistenceContext(unitName = "com.mycompany_Rollout_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -52,6 +55,62 @@ public class RolEJB extends AbstractFacade<Rol> {
         
     }
 
+    public void edit2(Rol rol,List<Permiso> permisos){
+
+        String tmp ="";
+        tmp=rol.getDescripcion();
+        for(Permiso p:permisos){
+            RolPermiso rolPermiso = new RolPermiso();
+            rolPermiso.setIdPermiso(p);
+            rolPermiso.setIdRol(rol);
+            rolPermisoEJB.edit(rolPermiso);
+            
+        }
+        em.merge(rol);
+        
+    }
+
+    public void edit(Rol rol, List<Permiso> permisoList) {
+        
+        getEntityManager().merge(rol);
+        List<RolPermiso> listaMenuSubmenu = rolPermisoEJB.obtenerListaRolPermiso(rol);
+        List<Permiso> permisoListAux = new ArrayList<>();
+        List<Permiso> aAgregar = new ArrayList<>();
+        List<Permiso> aEliminar = new ArrayList<>();
+        
+        for (RolPermiso m : listaMenuSubmenu) {
+            if (!permisoListAux.contains(m.getIdPermiso())) {
+                permisoListAux.add(m.getIdPermiso());
+            }
+        }
+
+        for (Permiso s : permisoListAux) {
+            if (!permisoList.contains(s)) {
+                aEliminar.add(s);
+            }
+        }
+
+        for (Permiso s : permisoList) {
+            if (!permisoListAux.contains(s)) {
+                aAgregar.add(s);
+            }
+        }
+
+        for (Permiso s : aEliminar) {
+            RolPermiso eliminar = rolPermisoEJB.obtenerRolPermiso(rol, s);
+            if (eliminar != null) {
+                rolPermisoEJB.remove(eliminar);
+            }
+        }
+
+        for (Permiso s : aAgregar) {
+            RolPermiso m = new RolPermiso();
+            m.setIdRol(rol);
+            m.setIdPermiso(s);
+            rolPermisoEJB.create(m);
+        }
+    }
+    
     public List<Permiso> findPermisos(Rol rolSeleccionado) {
         List<Permiso> lista = new ArrayList<>();
         List<RolPermiso> listaAux = new ArrayList<>();

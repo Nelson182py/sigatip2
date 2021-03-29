@@ -5,10 +5,15 @@
  */
 package py.com.sigati.ejb;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import py.com.sigati.entities.Permiso;
+import py.com.sigati.entities.Rol;
+import py.com.sigati.entities.RolPermiso;
 
 /**
  *
@@ -28,7 +33,5 @@ public class PermisoEJB extends AbstractFacade<Permiso> {
     public PermisoEJB() {
         super(Permiso.class);
     }
-
-
     
 }
