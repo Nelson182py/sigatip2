@@ -32,13 +32,13 @@
         </ui:define>
         <ui:define name="content" >
             <h:form id="formPermisos">
-                <p:dataTable id="dtPermisos" value="#{permisoBean.listaPermiso}" var="permiso" rows="10" rowKey="#{permiso.id}">
+                <p:dataTable id="dtPermisos" value="#{permisoBean.listaPermiso}" var="permiso" rows="10" rowKey="#{permiso.id}" paginator="true" paginatorPosition="bottom" >
 
                     <p:column headerText="Descripción">
                         <p:outputLabel value="#{permiso.descripcion}" />
                     </p:column>
 
-                    <p:column headerText="Acción" style="width: 150px;">
+                    <p:column headerText="Acción" style="width: 150px;" rendered="#{permisoBean.mostrarNuevo()}">
                         <center>
                             <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbPermisos').show()"
                                              update="formDlgPermisos" action="#{permisoBean.antesActualizar}">
@@ -57,11 +57,16 @@
                 <div class="float-sm-right" style="padding-top: 10px;">
                     <p:commandButton value="Nuevo Permiso" ajax="true" icon="fa fa-plus-circle"  
                                      oncomplete="PF('wbPermisos').show();"
-                                     actionListener="#{permisoBean.agregar()}"
+                                     actionListener="#{permisoBean.agregar()}"                                     
+                                     rendered="#{permisoBean.mostrarNuevo()}"
                                      update="formDlgPermisos">
                         <f:setPropertyActionListener value="#{false}" target="#{permisoBean.editando}" />
                     </p:commandButton>
                 </div>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                </p:confirmDialog>
             </h:form>
 
             <p:dialog id="dlgPermisos" widgetVar="wbPermisos" closeOnEscape="true" closable="true" header="Permisos"

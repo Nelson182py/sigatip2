@@ -13,19 +13,20 @@
             </ui:define>
             <ui:define name="content">
                 <h:form id="formUsuarios">
-                    <p:dataTable id="dtUsuarios" value="#{usuarioBean.listaUsuarios}" var="usu" rows="10" rowKey="#{usu.idUsuario}">
+                    <p:dataTable id="dtUsuarios" value="#{usuarioBean.listaUsuarios}" var="usu" rows="10" rowKey="#{usu.usuario}"
+                                 paginator="true" paginatorPosition="bottom" >
 
                         <p:column headerText="Usuario">
-                            <p:outputLabel value="#{usu.nombreUsuario}" />
+                            <p:outputLabel value="#{usu.usuario}" />
                         </p:column>
 
 
                         <p:column headerText="Rol">
-                            <p:outputLabel value="#{usu.idRol.nombreRol}" />
+                            <p:outputLabel value="#{usu.idRol.descripcion}" />
                         </p:column>
+                            
 
-
-                        <p:column headerText="Acción">
+                        <p:column headerText="Acción" rendered="#{usuarioBean.mostrarNuevo()}">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbUsuarios').show()"
                                                  update="formDlg" action="#{usuarioBean.antesActualizar}">
@@ -44,9 +45,10 @@
                     </p:dataTable>
 
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Usuario" ajax="true" icon="fa fa-plus-circle"
+                        <p:commandButton value="Nuevo Usuario" ajax="true" icon="fa fa-plus-circle"
                                          oncomplete="PF('wbUsuarios').show();"
                                          actionListener="#{usuarioBean.agregarUsuario}"
+                                         rendered="#{usuarioBean.mostrarNuevo()}"
                                          update="formDlg">
                             <f:setPropertyActionListener value="#{false}" target="#{usuarioBean.editando}" />
                         </p:commandButton>
@@ -65,26 +67,81 @@
                     <h:form id="formDlg">
                         <div class="bd-example">
                             <div class="form-group row">
-                                <label for="codusuario" class="col-sm-2 col-form-label">Usuario</label>
+                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-10">
-                                    <p:inputText id="codusuario" styleClass="form-control" required="false"
-                                                 value="#{usuarioBean.usuarioSeleccionado.nombreUsuario}"/>
+                                    <p:inputText id="nombre" styleClass="form-control" required="false"
+                                                 value="#{usuarioBean.usuarioSeleccionado.usuario}"/>
                                 </div>
                             </div>
-
-
-
+                            <div class="form-group row">
+                                <label for="pass" class="col-sm-2 col-form-label">Contraseña</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="pass" styleClass="form-control" required="false"
+                                                 value="#{usuarioBean.usuarioSeleccionado.contrasenha}"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="codigo" class="col-sm-2 col-form-label">Codigo</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="codigo" styleClass="form-control" required="false"
+                                                 value="#{usuarioBean.usuarioSeleccionado.codigoHumano}"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fecha" class="col-sm-2 col-form-label">Ingreso</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fecha" styleClass="form-control" required="false"
+                                                value="#{usuarioBean.usuarioSeleccionado.fechaIngreso}"/>
+                                </div>
+                            </div>    
+                            <div class="form-group row">
+                                <label for="celuar" class="col-sm-2 col-form-label">Celular</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="celular" styleClass="form-control" required="false"
+                                                 value="#{usuarioBean.usuarioSeleccionado.celularCorporativo}"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="correo" class="col-sm-2 col-form-label">Correo</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="correo" styleClass="form-control" required="false"
+                                                 value="#{usuarioBean.usuarioSeleccionado.correoCorporativo}"/>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Rol</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selRol" value="#{usuarioBean.rolSeleccionado}"
+                                    <p:selectOneMenu id="rol" value="#{usuarioBean.rolSeleccionado}"
                                                      converter="omnifaces.SelectItemsConverter" style="width: 470px !important"
                                                      >
 
-                                        <f:selectItems value="#{usuarioBean.listaRoles}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol}" />
+                                        <f:selectItems value="#{usuarioBean.listaRoles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Persona</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="persona" value="#{usuarioBean.personaSeleccionada}"
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 470px !important"
+                                                     >
+
+                                        <f:selectItems value="#{usuarioBean.listaPersonas}" var="persona" itemLabel="#{persona.ci}" itemValue="#{persona}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Area</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="area" value="#{usuarioBean.areaSeleccionada}"
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 470px !important"
+                                                     >
+
+                                        <f:selectItems value="#{usuarioBean.listaAreas}" var="area" itemLabel="#{area.descripcion}" itemValue="#{area}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
                         </div>
 
                         <center>
