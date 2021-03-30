@@ -56,7 +56,11 @@ public class UsuarioBean extends AbstractBean implements Serializable {
         private String completo = "completo"; 
         private String ninguno = "ninguno";
         private String informes = "descarga"; 
-    
+        private String contrasenhaActual="";
+        private String contrasenhaNueva="";
+        private String contrasenhaNuevaConfirmada="";
+        private String contrasenhaAEncriptar="12345";
+        
 	@PostConstruct
 	public void init() {
 		listaUsuarios = usuarioEJB.findAll();
@@ -72,8 +76,10 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 			usuarioSeleccionado.setIdRol(rolSeleccionado);
                         usuarioSeleccionado.setIdArea(areaSeleccionada);
                         usuarioSeleccionado.setIdPersona(personaSeleccionada);
-                        //usuarioSeleccionado.setPassword(DigestUtils.md5Hex("12345").hashCode() + "");
-			usuarioSeleccionado.setContrasenha(PasswordUtility.getSaltedHash("12345"));
+                        
+			//usuarioSeleccionado.setContrasenha(PasswordUtility.getSaltedHash("12345"));
+                        usuarioSeleccionado.setContrasenha(PasswordUtility.getSaltedHash(usuarioSeleccionado.getContrasenha()));
+                        
                         usuarioEJB.create(usuarioSeleccionado);
 			infoMessage("Se guardó correctamente.");
 			listaUsuarios = usuarioEJB.findAll();
@@ -82,8 +88,6 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 		} catch (Exception e) {
 			errorMessage("Se produjo un error."+e);
 		}
-
-
 	}
 
 	public void agregarUsuario() {
@@ -92,46 +96,6 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 		listaRoles = rolEJB.findAll();
                 listaPersonas = personaEJB.findAll();
                 listaAreas = areaEJB.findAll();
-	}
-
-	public List<Usuario> getListaUsuarios() {
-		return listaUsuarios;
-	}
-
-	public void setListaUsuarios(List<Usuario> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
-	}
-
-	public Usuario getUsuarioSeleccionado() {
-		return usuarioSeleccionado;
-	}
-
-	public void setUsuarioSeleccionado(Usuario usuarioSeleccionado) {
-		this.usuarioSeleccionado = usuarioSeleccionado;
-	}
-
-	public Rol getRolSeleccionado() {
-		return rolSeleccionado;
-	}
-
-	public void setRolSeleccionado(Rol rolSeleccionado) {
-		this.rolSeleccionado = rolSeleccionado;
-	}
-
-	public List<Rol> getListaRoles() {
-		return listaRoles;
-	}
-
-	public void setListaRoles(List<Rol> listaRoles) {
-		this.listaRoles = listaRoles;
-	}
-
-	public boolean isEditando() {
-		return editando;
-	}
-
-	public void setEditando(boolean editando) {
-		this.editando = editando;
 	}
 
 	@Override
@@ -155,8 +119,28 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 		rolSeleccionado = usuarioSeleccionado.getIdRol();
 		editando = true;
 	}
-
-	@Override
+        
+        public void actualizarPass(){
+            try {
+                editando = true;
+                String pass =  loginBean.getUsuarioLogueado().getContrasenha();
+                usuarioSeleccionado = loginBean.getUsuarioLogueado();
+                if((PasswordUtility.check(contrasenhaActual, pass))&&
+                (contrasenhaNueva.compareTo(contrasenhaNuevaConfirmada)==0)){
+                    antesActualizar();
+                    usuarioSeleccionado.setPassword(pass);
+                    actualizar();
+                    infoMessage("Se actualizó correctamente.");
+                }
+                else    
+                    errorMessage("las contrasenhas no coinciden");
+                } catch (Exception e) {
+			errorMessage("Se produjo un error.");
+		}
+                resetearValores();
+        }   
+	
+        @Override
 	public void actualizar() {
 		try {
 			usuarioSeleccionado.setIdRol(rolSeleccionado);
@@ -246,5 +230,68 @@ public class UsuarioBean extends AbstractBean implements Serializable {
     public void setAreaSeleccionada(Area areaSeleccionada) {
         this.areaSeleccionada = areaSeleccionada;
     }
+    
+    public String getContrasenhaActual() {
+        return contrasenhaActual;
+    }
 
+    public void setContrasenhaActual(String contrasenhaActual) {
+        this.contrasenhaActual = contrasenhaActual;
+    }
+
+    public String getContrasenhaNueva() {
+        return contrasenhaNueva;
+    }
+
+    public void setContrasenhaNueva(String contrasenhaNueva) {
+        this.contrasenhaNueva = contrasenhaNueva;
+    }
+
+    public String getContrasenhaNuevaConfirmada() {
+        return contrasenhaNuevaConfirmada;
+    }
+
+    public void setContrasenhaNuevaConfirmada(String contrasenhaNuevaConfirmada) {
+        this.contrasenhaNuevaConfirmada = contrasenhaNuevaConfirmada;
+    }
+
+    public List<Usuario> getListaUsuarios() {
+		return listaUsuarios;
+    }
+
+	public void setListaUsuarios(List<Usuario> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
+	}
+
+	public Usuario getUsuarioSeleccionado() {
+		return usuarioSeleccionado;
+	}
+
+	public void setUsuarioSeleccionado(Usuario usuarioSeleccionado) {
+		this.usuarioSeleccionado = usuarioSeleccionado;
+	}
+
+	public Rol getRolSeleccionado() {
+		return rolSeleccionado;
+	}
+
+	public void setRolSeleccionado(Rol rolSeleccionado) {
+		this.rolSeleccionado = rolSeleccionado;
+	}
+
+	public List<Rol> getListaRoles() {
+		return listaRoles;
+	}
+
+	public void setListaRoles(List<Rol> listaRoles) {
+		this.listaRoles = listaRoles;
+	}
+
+	public boolean isEditando() {
+		return editando;
+	}
+
+	public void setEditando(boolean editando) {
+		this.editando = editando;
+	}
 }

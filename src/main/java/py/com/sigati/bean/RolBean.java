@@ -41,6 +41,11 @@ public class RolBean extends AbstractBean implements Serializable {
     private String completo = "completo"; 
     private String ninguno = "ninguno";
     private String informes = "descarga"; 
+    private String admin = "Administrador";
+    private String pM = "Project Manager";
+    private String liderTecnico = "Lider Tecnico";
+    private String analista = "Analista";  
+    private String soporte = "Soporte";
     
     @EJB
     private RolEJB rolEJB;
@@ -217,15 +222,11 @@ public class RolBean extends AbstractBean implements Serializable {
     // Puede acceder ADMIN, PM, LIDERTECNICO
     public boolean mostrarMenuActividades(){        
         Usuario u =  loginBean.getUsuarioLogueado();
-        
-        String admin = "Administrador";
-        String pM = "Project Manager";
-        String liderTecnico = "Lider Tecnico";
-        String analista = "Analista";        
-                
+                        
         if (u != null){
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(soporte) ||
                u.getIdRol().getDescripcion().equals(liderTecnico) ){
                return true;
            }            
@@ -236,15 +237,11 @@ public class RolBean extends AbstractBean implements Serializable {
     // Puede acceder ADMIN, PM, LIDERTECNICO
     public boolean mostrarMenuGestion(){        
         Usuario u =  loginBean.getUsuarioLogueado();
-        
-        String admin = "Administrador";
-        String pM = "Project Manager";
-        String liderTecnico = "Lider Tecnico";
-        String analista = "Analista";        
-                
+                             
         if (u != null){
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(soporte) ||
                u.getIdRol().getDescripcion().equals(liderTecnico) ){
                return true;
            }            
@@ -256,11 +253,6 @@ public class RolBean extends AbstractBean implements Serializable {
     public boolean mostrarMenuParametrizacion(){        
         Usuario u =  loginBean.getUsuarioLogueado();
         
-        String admin = "Administrador";
-        String pM = "Project Manager";
-        String liderTecnico = "Lider Tecnico";
-        String analista = "Analista";        
-                
         if (u != null){
            if( u.getIdRol().getDescripcion().equals(admin) ){
                return true;
@@ -269,19 +261,15 @@ public class RolBean extends AbstractBean implements Serializable {
         return false;
     }
     
-    // Puede acceder ADMIN, PM, LIDERTECNICO y ANALISTA
+    // Puede acceder ADMIN, PM, LIDERTECNICO, Soporte y ANALISTA
     public boolean mostrarMenuInformes(){        
         Usuario u =  loginBean.getUsuarioLogueado();
-        
-        String admin = "Administrador";
-        String pM = "Project Manager";
-        String liderTecnico = "Lider Tecnico";
-        String analista = "Analista";        
                 
         if (u != null){
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
                u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(soporte) ||
                u.getIdRol().getDescripcion().equals(analista) ){
                return true;
            }            
