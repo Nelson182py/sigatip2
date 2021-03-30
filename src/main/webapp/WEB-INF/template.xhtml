@@ -41,7 +41,7 @@
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
                     <h:form>
-                        <p:menubar>
+                        <p:menubar>                           
                             <p:menuitem icon="pi pi-fw pi-user" value="#{loginBean.username}" />
                             
                             <p:submenu label="Notificaciones" icon="pi pi-external-link">
@@ -54,7 +54,11 @@
                                 </p:submenu>
                             </p:submenu>
 
-                            <p:menuitem value="Configuracion" icon="pi pi-cog"/>
+                            <p:submenu label="Configuracion" icon="pi pi-cog">
+                                <p:submenu label="Sesion" icon="pi pi-fw pi-cog">
+                                    <p:menuitem value="contrasenha" action="usuarios_pass" icon="pi pi-fw pi-cog"/>
+                                </p:submenu>
+                            </p:submenu>
                             
                             <p:menuitem action="#{loginBean.logout}" value="Cerrar sesion" icon="pi pi-fw pi-power-off"/>
                             
