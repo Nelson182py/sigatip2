@@ -46,17 +46,22 @@
                             
                             <p:submenu label="Notificaciones" icon="pi pi-external-link">
                                 <p:submenu label="Envios" icon="pi pi-external-link">
-                                    <p:menuitem value="Mensajes" icon="pi pi-fw pi-file"/>
-                                    <p:menuitem value="Correos" icon="pi pi-fw pi-file"/>
+                                    <!-- <p:menuitem value="Mensajes" icon="pi pi-fw pi-file"/>
+                                    <p:menuitem value="Correos" icon="pi pi-fw pi-file"/> -->
+                                    <p:menuitem value="Correos" class="fa fa-fw fa-envelope-o" action="working"/>
+                                    <p:menuitem value="Mensajes" class="fa fa-fw fa-envelope-o" action="working"/>
+                                    
                                 </p:submenu>
                                 <p:submenu label="Alarmas" icon="pi pi-fw pi-calendar">
-                                    <p:menuitem value="Configuracion" icon="pi pi-fw pi-file"/>
+                                    <p:menuitem value="Configuracion" class="fa fa-fw fa-bell-o" action="working"/>
+                                    <!-- <p:menuitem value="Configuracion" icon="pi pi-fw pi-file"/> -->
                                 </p:submenu>
                             </p:submenu>
 
                             <p:submenu label="Configuracion" icon="pi pi-cog">
                                 <p:submenu label="Sesion" icon="pi pi-fw pi-cog">
-                                    <p:menuitem value="contrasenha" action="usuarios_pass" icon="pi pi-fw pi-cog"/>
+                                    <p:menuitem value="Configuracion" class="fa fa-fw fa-cog" action="usuarios_pass"/>
+                                    <!-- <p:menuitem value="contrasenha" action="usuarios_pass" icon="pi pi-fw pi-cog"/> -->
                                 </p:submenu>
                             </p:submenu>
                             
