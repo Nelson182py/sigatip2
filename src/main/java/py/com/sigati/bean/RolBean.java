@@ -219,7 +219,7 @@ public class RolBean extends AbstractBean implements Serializable {
         return false;
     }
     
-    // Puede acceder ADMIN, PM, LIDERTECNICO
+    // Puede acceder ADMIN, PM, LIDERTECNICO, Soporte y Analista
     public boolean mostrarMenuActividades(){        
         Usuario u =  loginBean.getUsuarioLogueado();
                         
@@ -227,7 +227,8 @@ public class RolBean extends AbstractBean implements Serializable {
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
                u.getIdRol().getDescripcion().equals(soporte) ||
-               u.getIdRol().getDescripcion().equals(liderTecnico) ){
+               u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(analista) ){
                return true;
            }            
         }
@@ -241,7 +242,6 @@ public class RolBean extends AbstractBean implements Serializable {
         if (u != null){
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
-               u.getIdRol().getDescripcion().equals(soporte) ||
                u.getIdRol().getDescripcion().equals(liderTecnico) ){
                return true;
            }            
