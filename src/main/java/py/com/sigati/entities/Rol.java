@@ -14,13 +14,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -35,17 +33,11 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "Rol.findByDescripcion", query = "SELECT r FROM Rol r WHERE r.descripcion = :descripcion")})
 public class Rol implements Serializable {
 
-    @OneToMany(mappedBy = "idRol")
-    private List<RolPermiso> rolPermisoList;
-
-   
-
-
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
     @Column(name = "descripcion", length = 100)
@@ -53,6 +45,8 @@ public class Rol implements Serializable {
     @JoinColumn(name = "id_permiso", referencedColumnName = "id")
     @ManyToOne
     private Permiso idPermiso;
+    @OneToMany(mappedBy = "idRol")
+    private List<RolPermiso> rolPermisoList;
     @OneToMany(mappedBy = "idRol")
     private List<Usuario> usuarioList;
 
@@ -87,6 +81,14 @@ public class Rol implements Serializable {
         this.idPermiso = idPermiso;
     }
 
+    public List<RolPermiso> getRolPermisoList() {
+        return rolPermisoList;
+    }
+
+    public void setRolPermisoList(List<RolPermiso> rolPermisoList) {
+        this.rolPermisoList = rolPermisoList;
+    }
+
     public List<Usuario> getUsuarioList() {
         return usuarioList;
     }
@@ -117,18 +119,7 @@ public class Rol implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Rol[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Rol[ id=" + id + " ]";
     }
-
-    public List<RolPermiso> getRolPermisoList() {
-        return rolPermisoList;
-    }
-
-    public void setRolPermisoList(List<RolPermiso> rolPermisoList) {
-        this.rolPermisoList = rolPermisoList;
-    }
-
- 
- 
     
 }

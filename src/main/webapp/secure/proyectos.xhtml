@@ -9,81 +9,82 @@
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml"  >
             <ui:define name="tituloPagina">
-                Administración de Proyectos
+                Administración de proyectos
             </ui:define>    
             <ui:define name="content">
-                <h:form id="fromProyectos">
-                    <p:dataTable id="dtProyectos" value="#{proyectosBean.listaProyectos}" var="pro" rows="10" rowKey="#{pro.idProyecto}">
+                <h:form id="fromProyectos" styleClass="products-table">
+                    <p:dataTable id="dtProyectos" widgetVar="wbTable" value="#{proyectoBean.listaProyecto}" var="pro" rows="10" rowKey="#{pro.id}"
+                                 reflow="true" styleClass="products-table" paginator="true" paginatorPosition="bottom" rowSelectMode="add">
 
-                        <p:column headerText="Cód. Proyecto">
-                            <p:outputLabel value="#{pro.codigo}" />
+                        <f:facet name="header" >
+                            <div class="products-table-header" align="right">                 
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('wbTable').filter()" placeholder="Search"/>
+                                </span>
+
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="Nombre" filterBy="#{pro.nombre}" filterMatchMode="contains">
+                            <p:outputLabel value="#{pro.nombre}" />
                         </p:column>
 
-                        <p:column headerText="Nombre">                           
-                            <p:outputLabel value="#{pro.nombreProyecto}" />
-                        </p:column>
+                        <!-- <p:column headerText="Descripción">                           
+                             <p:outputLabel value="#{pro.descripcion}" />
+                         </p:column>
+                         <p:column headerText="Fecha Inicio">
+                             <center>
+                                 <p:outputLabel value="#{pro.fechaInicio}" >
+                                     <f:convertDateTime pattern="dd/MM/yyyy" />
+                                 </p:outputLabel>
+                             </center>
+                         </p:column>-->
 
-                        <p:column headerText="Fecha Inicio">
+                        <p:column headerText="Fec. Ini Estimada" sortBy="#{pro.fechaInicioEstimado}">
                             <center>
-                                <p:outputLabel value="#{pro.fechaInicio}" >
+                                <p:outputLabel value="#{pro.fechaInicioEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
                         </p:column>
 
-                        <p:column headerText="Fec. Estimada">
+                        <p:column headerText="Fec. Fin Estimada" sortBy="#{pro.fechaFinEstimado}">
                             <center>
-                                <p:outputLabel value="#{pro.fechaFinEstimada}" >
+                                <p:outputLabel value="#{pro.fechaFinEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
                         </p:column>
 
-                        <p:column headerText="Fec. Fin">
+                        <p:column headerText="Segmento" filterBy="#{pro.idSegmento.descripcion}" filterMatchMode="contains">
                             <center>
-                                <p:outputLabel value="#{pro.fechaFin}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </p:outputLabel>
+                                <p:outputLabel value="#{pro.idSegmento.descripcion}"/>
                             </center>
                         </p:column>
 
-                        <p:column headerText="Año Proyecto">
+                        <p:column headerText="Responsable" filterBy="#{pro.idResponsable.usuario}" filterMatchMode="contains">
                             <center>
-                                <p:outputLabel value="#{pro.anhoProyecto}"/>
+                                <p:outputLabel value="#{pro.idResponsable.usuario}" />
                             </center>
                         </p:column>
 
-                        <p:column headerText="Cant. Sprint">
-                            <center>
-                                <p:outputLabel value="#{pro.cantidadSprint}" />
+                        <p:column headerText="Estado" filterBy="#{pro.idEstado.descripcion}" filterMatchMode="contains">
+                            <center>                                      
+                                <div class="estado-#{pro.idEstado.descripcion}">#{pro.idEstado.descripcion}</div>
                             </center>
-                        </p:column>
-
-                        <p:column headerText="Persona">
-                            <center>
-                                <p:outputLabel value="#{pro.idPersona.codigo}" />
-                            </center>
-                        </p:column>
-
-                        <p:column headerText="Inactivo">
-                            <p:outputLabel value="#{pro.inactivo}" />
-                        </p:column>
-                        
-                        <p:column headerText="Equipo">
-                            <p:outputLabel value="#{pro.idEquipo.nombreEquipo}" />
-                        </p:column>
-
+                        </p:column>                   
                         <p:column headerText="Acción">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbProyectos').show()"
-                                                 update="formDlgProyectos" action="#{proyectosBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{proyectosBean.proyectoSeleccionado}" />
-                                    <f:setPropertyActionListener value="#{true}" target="#{proyectosBean.editando}" />
+                                                 rendered="#{proyectoBean.editarProyecto()}"  update="formDlgProyectos" action="#{proyectoBean.antesActualizar}">
+                                    <f:setPropertyActionListener value="#{pro}" target="#{proyectoBean.proyectoSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{proyectoBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                 action="#{proyectosBean.eliminar}" update="fromProyectos:dtProyectos formGrowl:growl">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{proyectosBean.proyectoSeleccionado}" />
+                                                 rendered="#{proyectoBean.editarProyecto()}" action="#{proyectoBean.eliminar}" update="fromProyectos:dtProyectos formGrowl:growl">
+                                    <f:setPropertyActionListener value="#{pro}" target="#{proyectoBean.proyectoSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
                             </center>
@@ -92,36 +93,37 @@
                     </p:dataTable> 
 
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Proyecto" ajax="true" icon="fa fa-plus-circle"  
+                        <p:commandButton value="Agregar Proyecto" rendered="#{proyectoBean.agregarProyecto()}" ajax="true" icon="fa fa-plus-circle"  
                                          oncomplete="PF('wbProyectos').show();"
-                                         actionListener="#{proyectosBean.agregarProyecto}"
+                                         actionListener="#{proyectoBean.agregar()}"
                                          update="formDlgProyectos">
-                            <f:setPropertyActionListener value="#{false}" target="#{proyectosBean.editando}" />
+                            <f:setPropertyActionListener value="#{false}" target="#{proyectoBean.editando}" />
                         </p:commandButton>
                     </div>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                         <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
                     </p:confirmDialog>  
+
                 </h:form>
 
                 <p:dialog id="dlgProyectos" widgetVar="wbProyectos" closeOnEscape="true" closable="true" header="Proyecto"
-                          width="950" height="650"  appendTo="@(body)"> 
+                          width="950" height="500" showEffect="fade" modal="true" responsive="true"> 
                     <h:form id="formDlgProyectos">
                         <div class="bd-example">
                             <div class="form-group row">
-                                <label for="codigo" class="col-sm-2 col-form-label">Código</label>
-                                <div class="col-sm-10">
+                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                <div class="col-sm-10"> 
                                     <p:inputText id="codigo" styleClass="form-control" required="false"
-                                                 value="#{proyectosBean.proyectoSeleccionado.codigo}"/>
+                                                 value="#{proyectoBean.proyectoSeleccionado.nombre}"/>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="nombre" styleClass="form-control" required="false"
-                                                 value="#{proyectosBean.proyectoSeleccionado.nombreProyecto}"/>
+                                                 value="#{proyectoBean.proyectoSeleccionado.descripcion}"/>
                                 </div>
                             </div>
 
@@ -129,82 +131,77 @@
                                 <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha Inicio</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaInicio"  required="false"
-                                                value="#{proyectosBean.proyectoSeleccionado.fechaInicio}"/>
+                                                value="#{proyectoBean.proyectoSeleccionado.fechaInicio}"/>
                                 </div>
                             </div>  
 
                             <div class="form-group row">
-                                <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha Fin Estimada</label>
+                                <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha Inicio Estimada</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaFinEstimada" required="false" style="widows: 300px !important;"
-                                                value="#{proyectosBean.proyectoSeleccionado.fechaFinEstimada}"/>
+                                                value="#{proyectoBean.proyectoSeleccionado.fechaInicioEstimado}"/>
                                 </div>
                             </div>  
 
                             <div class="form-group row">
-                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha Finalización</label>
+                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha fin Estimada</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaFin"  required="false"
-                                                value="#{proyectosBean.proyectoSeleccionado.fechaFin}"/>
+                                                value="#{proyectoBean.proyectoSeleccionado.fechaFinEstimado}"/>
                                 </div>
                             </div>  
 
                             <div class="form-group row">
-                                <label for="anhoProyecto" class="col-sm-2 col-form-label">Año del Proyecto</label>
+                                <label for="selSegmento" class="col-sm-2 col-form-label">Segmento</label>
                                 <div class="col-sm-10">
-                                    <p:inputText id="anhoProyecto" styleClass="form-control" required="false"
-                                                 value="#{proyectosBean.proyectoSeleccionado.anhoProyecto}"/>
-                                </div>
-                            </div>  
-
-                            <div class="form-group row">
-                                <label for="cantidadSprint" class="col-sm-2 col-form-label">Cantidad Sprint</label>
-                                <div class="col-sm-10">
-                                    <p:inputText id="cantidadSprint" styleClass="form-control" required="false"
-                                                 value="#{proyectosBean.proyectoSeleccionado.cantidadSprint}"/>
-                                </div>
-                            </div>  
-
-                            <div class="form-group row">
-                                <label for="selPersona" class="col-sm-2 col-form-label">Persona</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="selPersona" value="#{proyectosBean.PersonaSeleccionado}" 
+                                    <p:selectOneMenu id="selSegmento" value="#{proyectoBean.proyectoSeleccionado.idSegmento}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{segmentoBean.listaSegmento}" var="segmento" itemLabel="#{segmento.descripcion}" itemValue="#{segmento}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>  
 
-                                        <f:selectItems value="#{proyectosBean.listaPersonas}" var="Persona" itemLabel="#{Persona.nombrePersona}" itemValue="#{Persona}" />
+                            <div class="form-group row">
+                                <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{usuarioBean.listaPMs}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                    </p:selectOneMenu>         
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selEstado" value="#{proyectoBean.proyectoSeleccionado.idEstado}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/> 
+                                        <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
 
-
-                            <div class="form-group row">
-                                <label for="setEquipo" class="col-sm-2 col-form-label">Equipo</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="setEquipo" value="#{proyectosBean.equipoSeleccionado}" 
-                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
-                                                     >
-
-                                        <f:selectItem itemValue="#{null}" noSelectionOption="true"     itemLabel="Seleccionar"   />     
-                                        <f:selectItems value="#{proyectosBean.listaEquipo}" var="equipo" itemLabel="#{equipo.nombreEquipo}" itemValue="#{equipo}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div>
                         </div>
 
                         <center>
                             <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
-                                              action="#{proyectosBean.guardar}"
+                                              action="#{proyectoBean.guardar}"
                                               update="fromProyectos:dtProyectos formGrowl:growl"
                                               process="@this @form"
-                                              rendered="#{!proyectosBean.editando}"
+                                              rendered="#{!proyectoBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
-                                              action="#{proyectosBean.actualizar}"
+                                              action="#{proyectoBean.actualizar}"
                                               update="fromProyectos:dtProyectos formGrowl:growl"
                                               process="@this @form"
-                                              rendered="#{proyectosBean.editando}"
+                                              rendered="#{proyectoBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"

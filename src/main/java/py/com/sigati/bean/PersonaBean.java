@@ -167,8 +167,7 @@ public class PersonaBean extends AbstractBean implements Serializable {
         
         for(RolPermiso p:permisos){                 
             if (p != null){
-                if( p.getIdPermiso().getDescripcion().equals(alta) ||
-                    p.getIdPermiso().getDescripcion().equals(alta))
+                if( p.getIdPermiso().getDescripcion().equals(alta))
                 return true;
             }            
         }

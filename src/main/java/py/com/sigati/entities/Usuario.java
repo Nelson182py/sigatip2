@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,20 +36,15 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "Usuario.findByCodigoHumano", query = "SELECT u FROM Usuario u WHERE u.codigoHumano = :codigoHumano")
     , @NamedQuery(name = "Usuario.findByFechaIngreso", query = "SELECT u FROM Usuario u WHERE u.fechaIngreso = :fechaIngreso")
     , @NamedQuery(name = "Usuario.findByCelularCorporativo", query = "SELECT u FROM Usuario u WHERE u.celularCorporativo = :celularCorporativo")
-    , @NamedQuery(name = "Usuario.findByCorreoCorporativo", query = "SELECT u FROM Usuario u WHERE u.correoCorporativo = :correoCorporativo")})
+    , @NamedQuery(name = "Usuario.findByCorreoCorporativo", query = "SELECT u FROM Usuario u WHERE u.correoCorporativo = :correoCorporativo")
+    , @NamedQuery(name = "Usuario.findByUsuario", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario")
+    , @NamedQuery(name = "Usuario.findByContrasenha", query = "SELECT u FROM Usuario u WHERE u.contrasenha = :contrasenha")})
 public class Usuario implements Serializable {
-
-    @Size(max = 2147483647)
-    @Column(name = "usuario", length = 2147483647)
-    private String usuario;
-    @Size(max = 2147483647)
-    @Column(name = "contrasenha", length = 2147483647)
-    private String contrasenha;
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "codigo_humano", nullable = false)
     private Integer codigoHumano;
     @Basic(optional = false)
@@ -61,10 +58,18 @@ public class Usuario implements Serializable {
     @Size(max = 50)
     @Column(name = "correo_corporativo", length = 50)
     private String correoCorporativo;
+    @Size(max = 2147483647)
+    @Column(name = "usuario", length = 2147483647)
+    private String usuario;
+    @Size(max = 2147483647)
+    @Column(name = "contrasenha", length = 2147483647)
+    private String contrasenha;
     @OneToMany(mappedBy = "idResponsable")
     private List<Proyecto> proyectoList;
     @OneToMany(mappedBy = "idReportador")
     private List<Incidente> incidenteList;
+    @OneToMany(mappedBy = "idResponsable")
+    private List<Tarea> tareaList;
     @JoinColumn(name = "id_area", referencedColumnName = "id")
     @ManyToOne
     private Area idArea;
@@ -119,6 +124,22 @@ public class Usuario implements Serializable {
         this.correoCorporativo = correoCorporativo;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContrasenha() {
+        return contrasenha;
+    }
+
+    public void setContrasenha(String contrasenha) {
+        this.contrasenha = contrasenha;
+    }
+
     public List<Proyecto> getProyectoList() {
         return proyectoList;
     }
@@ -133,6 +154,14 @@ public class Usuario implements Serializable {
 
     public void setIncidenteList(List<Incidente> incidenteList) {
         this.incidenteList = incidenteList;
+    }
+
+    public List<Tarea> getTareaList() {
+        return tareaList;
+    }
+
+    public void setTareaList(List<Tarea> tareaList) {
+        this.tareaList = tareaList;
     }
 
     public Area getIdArea() {
@@ -181,27 +210,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Usuario[ codigoHumano=" + codigoHumano + " ]";
-    }
-
-    public void setPassword(String saltedHash) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasenha() {
-        return contrasenha;
-    }
-
-    public void setContrasenha(String contrasenha) {
-        this.contrasenha = contrasenha;
+        return "com.mycompany.entidadessigati.Usuario[ codigoHumano=" + codigoHumano + " ]";
     }
     
 }

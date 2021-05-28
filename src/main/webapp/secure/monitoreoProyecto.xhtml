@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:body>
+        <ui:composition template="/WEB-INF/template.xhtml"  >
+            <ui:define name="tituloPagina">
+                Monitoreo y Control de Proyectos
+            </ui:define>    
+            <ui:define name="content">
+                <h:form id="fromProyectos" styleClass="products-table">
+                    <p:dataTable id="dtProyectos" widgetVar="wbTable" value="#{proyectoBean.listaProyecto}" var="pro" rows="10" rowKey="#{pro.id}"
+                                 reflow="true" styleClass="products-table" paginator="true" paginatorPosition="bottom" rowSelectMode="add">
+
+                        <f:facet name="header" >
+                            <div class="products-table-header" align="right">                 
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('wbTable').filter()" placeholder="Search"/>
+                                </span>
+
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="Nombre" filterBy="#{pro.nombre}" filterMatchMode="contains">
+                            <p:outputLabel value="#{pro.nombre}" />
+                        </p:column>
+
+                        <!-- <p:column headerText="Descripción">                           
+                             <p:outputLabel value="#{pro.descripcion}" />
+                         </p:column>
+                         <p:column headerText="Fecha Inicio">
+                             <center>
+                                 <p:outputLabel value="#{pro.fechaInicio}" >
+                                     <f:convertDateTime pattern="dd/MM/yyyy" />
+                                 </p:outputLabel>
+                             </center>
+                         </p:column>-->
+
+                        <p:column headerText="Fec. Ini Estimada" sortBy="#{pro.fechaInicioEstimado}">
+                            <center>
+                                <p:outputLabel value="#{pro.fechaInicioEstimado}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+
+                        <p:column headerText="Fec. Fin Estimada" sortBy="#{pro.fechaFinEstimado}">
+                            <center>
+                                <p:outputLabel value="#{pro.fechaFinEstimado}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+
+                        <p:column headerText="Segmento" filterBy="#{pro.idSegmento.descripcion}" filterMatchMode="contains">
+                            <center>
+                                <p:outputLabel value="#{pro.idSegmento.descripcion}"/>
+                            </center>
+                        </p:column>
+
+                        <p:column headerText="Responsable" filterBy="#{pro.idResponsable.usuario}" filterMatchMode="contains">
+                            <center>
+                                <p:outputLabel value="#{pro.idResponsable.usuario}" />
+                            </center>
+                        </p:column>
+
+                        <p:column headerText="Estado" filterBy="#{pro.idEstado.descripcion}" filterMatchMode="contains">
+                            <center>                                      
+                                <div class="estado-#{pro.idEstado.descripcion}">#{pro.idEstado.descripcion}</div>
+                            </center>
+                        </p:column>  
+                        
+                        
+                        <p:column headerText="Acción">
+                            <center>
+                                
+                                
+                                <p:commandButton update="formDlgGraficoProyectos" oncomplete="PF('graficoDialog').show()" action="#{proyectoBean.actualizarGrafico}"
+                                                 icon="pi pi-chart-bar" title="View">
+                                    <f:setPropertyActionListener value="#{pro}"
+                                                                 target="#{proyectoBean.proyectoSeleccionado}"/>
+                                </p:commandButton>
+                                <p:commandButton update="formDlgGraficoProyectos2" oncomplete="PF('graficoDialog2').show()" action="#{proyectoBean.actualizarGrafico2}"
+                                                 icon="pi pi-spinner" title="View">
+                                    <f:setPropertyActionListener value="#{pro}"
+                                                                 target="#{proyectoBean.proyectoSeleccionado}"/>
+                                </p:commandButton>
+                   
+                                
+                            </center>
+                        </p:column>
+
+                    </p:dataTable> 
+                                      
+                        
+                    <div class="float-sm-right" style="padding-top: 10px;">
+                        <p:commandButton value="Correciones" rendered="#{proyectoBean.agregarProyecto()}" ajax="true" icon="fa fa-plus-circle"  
+                                         oncomplete="PF('wbProyectos').show();"
+                                         actionListener="#{proyectoBean.agregar()}"
+                                         update="formDlgProyectos">
+                            <f:setPropertyActionListener value="#{false}" target="#{proyectoBean.editando}" />
+                        </p:commandButton>
+                    </div>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog>  
+
+                </h:form>
+
+                <p:dialog id="dlgProyectos" widgetVar="wbProyectos" closeOnEscape="true" closable="true" header="Proyecto"
+                          width="950" height="500" showEffect="fade" modal="true" responsive="true"> 
+                    <h:form id="formDlgProyectos">
+                        <div class="bd-example">
+                            <div class="form-group row">
+                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                <div class="col-sm-10"> 
+                                    <p:inputText id="codigo" styleClass="form-control" required="false"
+                                                 value="#{proyectoBean.proyectoSeleccionado.nombre}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="nombre" styleClass="form-control" required="false"
+                                                 value="#{proyectoBean.proyectoSeleccionado.descripcion}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha Inicio</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaInicio"  required="false"
+                                                value="#{proyectoBean.proyectoSeleccionado.fechaInicio}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha Inicio Estimada</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFinEstimada" required="false" style="widows: 300px !important;"
+                                                value="#{proyectoBean.proyectoSeleccionado.fechaInicioEstimado}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha fin Estimada</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFin"  required="false"
+                                                value="#{proyectoBean.proyectoSeleccionado.fechaFinEstimado}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="selSegmento" class="col-sm-2 col-form-label">Segmento</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selSegmento" value="#{proyectoBean.proyectoSeleccionado.idSegmento}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{segmentoBean.listaSegmento}" var="segmento" itemLabel="#{segmento.descripcion}" itemValue="#{segmento}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{usuarioBean.listaPMs}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                    </p:selectOneMenu>         
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selEstado" value="#{proyectoBean.proyectoSeleccionado.idEstado}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/> 
+                                        <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <center>
+                            <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
+                                              action="#{proyectoBean.guardar}"
+                                              update="fromProyectos:dtProyectos formGrowl:growl"
+                                              process="@this @form"
+                                              rendered="#{!proyectoBean.editando}"
+                                              />
+
+                            <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
+                                              action="#{proyectoBean.actualizar}"
+                                              update="fromProyectos:dtProyectos formGrowl:growl"
+                                              process="@this @form"
+                                              rendered="#{proyectoBean.editando}"
+                                              />
+
+                            <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                              onclick="PF('wbProyectos').hide()"></p:commandButton>
+
+                        </center>
+                    </h:form>
+                </p:dialog>  
+                
+                <p:dialog header="Estado de avance de Iniciativa (Horas)" widgetVar="graficoDialog" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoProyectos">    
+                        <div class="card">
+                            <p:donutChart model="#{proyectoBean.donutModel}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
+                
+                <p:dialog header="Estado de avance de Iniciativa (Tareas)" widgetVar="graficoDialog2" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoProyectos2">    
+                        <div class="card">
+                            <p:donutChart model="#{proyectoBean.donutModel2}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
+            </ui:define>    
+
+        </ui:composition>    
+    </h:body>
+</html>                    
+                    
+
+

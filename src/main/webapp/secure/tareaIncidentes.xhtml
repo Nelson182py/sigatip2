@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+  
+    <h:body>
+        <ui:composition template="/WEB-INF/template.xhtml"  >
+            <ui:define name="tituloPagina">
+                Administración de Tareas para incidentes
+            </ui:define>    
+            <ui:define name="content">
+                <h:form id="fromTareas">
+                    <p:dataTable id="dtTareas" widgetVar="wbTable" value="#{tareaBean.listaTarea}" var="tar" rows="10" rowKey="#{tar.id}"
+                                 paginator="true" paginatorPosition="bottom">
+
+                        <f:facet name="header" >
+                            <div class="products-table-header" align="right">                 
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('wbTable').filter()" placeholder="Search"/>
+                                </span>
+
+                            </div>
+                        </f:facet>
+                        
+                        <p:column headerText="Nombre" filterBy="#{tar.nombre}" filterMatchMode="contains">
+                            <p:outputLabel value="#{tar.nombre}" />
+                        </p:column>
+
+                       <!-- <p:column headerText="Descripción">                           
+                            <p:outputLabel value="#{tar.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Fecha Inicio">
+                            <center>
+                                <p:outputLabel value="#{tar.fechaInicio}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>-->
+
+                        <p:column headerText="Fec. Ini Estimada" sortBy="#{tar.fechaInicioEstimado}">
+                            <center>
+                                <p:outputLabel value="#{tar.fechaInicioEstimado}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+
+                        <p:column headerText="Fec. Fin Estimada" sortBy="#{tar.fechaFinEstimado}">
+                            <center>
+                                <p:outputLabel value="#{tar.fechaFinEstimado}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+                       <!-- <p:column headerText="Ambiente" filterBy="#{tar.idAmbiente.descripcion}" filterMatchMode="contains">
+                            <center>
+                                <p:outputLabel value="#{tar.idAmbiente.descripcion}"/>
+                            </center>
+                        </p:column>
+                        <p:column headerText="Complejidad" filterBy="#{tar.idComplejidad.descripcion}" filterMatchMode="contains">
+                            <center>
+                                <p:outputLabel value="#{tar.idComplejidad.descripcion}" />
+                            </center>
+                        </p:column>-->
+                         <p:column headerText="Prioridad" filterBy="#{tar.idPrioridad.descripcion}" filterMatchMode="contains">
+                            <center>
+                                <p:outputLabel value="#{tar.idPrioridad.descripcion}" />
+                            </center>
+                        </p:column>
+                        <p:column headerText="Estado" filterBy="#{tar.idEstado.descripcion}" filterMatchMode="contains">
+                            <center>
+                                <div class="estado-#{tar.idEstado.descripcion}">#{tar.idEstado.descripcion}</div>
+                            </center>
+                        </p:column>
+                        <p:column headerText="Incidente" filterBy="#{tar.idIncidente.descripcion}" filterMatchMode="contains">
+                            <center>
+                                <p:outputLabel value="#{tar.idIncidente.descripcion}" />
+                            </center>
+                        </p:column>    
+                        
+                        <p:column headerText="Acción">
+                            <center>
+                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbTareas').show()"
+                                                 rendered="#{tareaBean.editarTarea()}" update="formDlgTareas" action="#{tareaBean.antesActualizar}">
+                                    <f:setPropertyActionListener value="#{tar}" target="#{tareaBean.tareaSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{tareaBean.editando}" />
+                                </p:commandButton>
+
+                                <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
+                                                  rendered="#{tareaBean.eliminarTarea()}" action="#{tareaBean.eliminar}" update="fromTareas:dtTareas formGrowl:growl">
+                                    <f:setPropertyActionListener value="#{tar}" target="#{tareaBean.tareaSeleccionado}" />
+                                    <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+                            </center>
+                        </p:column>
+
+                    </p:dataTable> 
+
+                    <div class="float-sm-right" style="padding-top: 10px;">
+                        <p:commandButton value="Agregar Tarea" rendered="#{tareaBean.agregarTarea()}" ajax="true" icon="fa fa-plus-circle"  
+                                         oncomplete="PF('wbTareas').show();"
+                                         actionListener="#{tareaBean.agregar()}"
+                                         update="formDlgTareas">
+                            <f:setPropertyActionListener value="#{false}" target="#{tareaBean.editando}" />
+                        </p:commandButton>
+                    </div>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog>  
+                </h:form>
+
+                <p:dialog id="dlgTareas" widgetVar="wbTareas" closeOnEscape="true" closable="true" header="Tarea"
+                          width="950" height="650" modal="true"> 
+                    <h:form id="formDlgTareas">
+                        <div class="bd-example">
+                            <div class="form-group row">
+                                <label for="selIncidente" class="col-sm-2 col-form-label">Incidente</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selIncidente" value="#{tareaBean.tareaSeleccionado.idIncidente}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{incidenteBean.listaIncidente}" var="incidente" itemLabel="#{incidente.descripcion}" itemValue="#{incidente}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="codigo" styleClass="form-control" required="false"
+                                                 value="#{tareaBean.tareaSeleccionado.nombre}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="nombre" class="col-sm-2 col-form-label">Descripción</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="nombre" styleClass="form-control" required="false"
+                                                 value="#{tareaBean.tareaSeleccionado.descripcion}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha Inicio</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaInicio"  required="false"
+                                                value="#{tareaBean.tareaSeleccionado.fechaInicio}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha Inicio Estimada</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFinEstimada" required="false" style="widows: 300px !important;"
+                                                value="#{tareaBean.tareaSeleccionado.fechaInicioEstimado}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="fechaFinEst" class="col-sm-2 col-form-label">Fecha fin Estimada</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFinEst"  required="false"
+                                                value="#{tareaBean.tareaSeleccionado.fechaFinEstimado}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFin"  required="false"
+                                                value="#{tareaBean.tareaSeleccionado.fechaFin}"/>
+                                </div>
+                            </div> 
+                            
+                             <div class="form-group row">
+                                <label for="selHoras_est" class="col-sm-2 col-form-label">Horas estimadas</label>
+                                 <div class="col-sm-10">
+                                    <p:inputText id="selHoras_est" styleClass="form-control" required="false"
+                                                 value="#{tareaBean.tareaSeleccionado.horasEstimadas}"/>
+                                </div>
+                            </div>  
+                            
+                              <div class="form-group row">
+                                <label for="selHoras" class="col-sm-2 col-form-label">Horas</label>
+                                 <div class="col-sm-10">
+                                    <p:inputText id="selHoras" styleClass="form-control" required="false"
+                                                 value="#{tareaBean.tareaSeleccionado.horas}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="selAmbiente" class="col-sm-2 col-form-label">Ambiente</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selAmbiente" value="#{tareaBean.tareaSeleccionado.idAmbiente}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{ambienteBean.listaAmbiente}" var="ambiente" itemLabel="#{ambiente.descripcion}" itemValue="#{ambiente}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>  
+
+                             <div class="form-group row">
+                                <label for="selComplejidad" class="col-sm-2 col-form-label">Complejidad</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selComplejidad" value="#{tareaBean.tareaSeleccionado.idComplejidad}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{complejidadBean.listaComplejidad}" var="complejidad" itemLabel="#{complejidad.descripcion}" itemValue="#{complejidad}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="selPrioridad" class="col-sm-2 col-form-label">Prioridad</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selPrioridad" value="#{tareaBean.tareaSeleccionado.idPrioridad}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{prioridadBean.listaPrioridad}" var="prioridad" itemLabel="#{prioridad.descripcion}" itemValue="#{prioridad}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                              <div class="form-group row">
+                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selPEstado" value="#{tareaBean.tareaSeleccionado.idEstado}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div> 
+                                                                             
+                            <div class="form-group row">
+                                <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selResponsable" value="#{tareaBean.tareaSeleccionado.idResponsable}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{usuarioBean.listaAnalistas}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>  
+  
+                        </div>
+
+                        <center>
+                            <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
+                                              action="#{tareaBean.guardarTareaIncidente}"
+                                              update="fromTareas:dtTareas formGrowl:growl"
+                                              process="@this @form"
+                                              rendered="#{!tareaBean.editando}"
+                                              />
+
+                            <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
+                                              action="#{tareaBean.actualizar}"
+                                              update="fromTareas:dtTareas formGrowl:growl"
+                                              process="@this @form"
+                                              rendered="#{tareaBean.editando}"
+                                              />
+
+                            <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                              onclick="PF('wbTareas').hide()"></p:commandButton>
+
+                        </center>
+                    </h:form>
+                </p:dialog>  
+            </ui:define>    
+
+        </ui:composition>    
+    </h:body>
+</html>

@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,11 +30,10 @@ import javax.validation.constraints.NotNull;
 public class RolPermiso implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @JoinColumn(name = "id_permiso", referencedColumnName = "id")
     @ManyToOne
@@ -97,7 +95,7 @@ public class RolPermiso implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.RolPermiso[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.RolPermiso[ id=" + id + " ]";
     }
     
 }

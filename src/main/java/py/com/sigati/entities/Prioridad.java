@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,6 +34,7 @@ public class Prioridad implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id", nullable = false)
@@ -43,6 +46,8 @@ public class Prioridad implements Serializable {
     private List<Entregable> entregableList;
     @OneToMany(mappedBy = "idPrioridad")
     private List<Incidente> incidenteList;
+    @OneToMany(mappedBy = "idPrioridad")
+    private List<Tarea> tareaList;
 
     public Prioridad() {
     }
@@ -83,6 +88,14 @@ public class Prioridad implements Serializable {
         this.incidenteList = incidenteList;
     }
 
+    public List<Tarea> getTareaList() {
+        return tareaList;
+    }
+
+    public void setTareaList(List<Tarea> tareaList) {
+        this.tareaList = tareaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,7 +118,7 @@ public class Prioridad implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Prioridad[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Prioridad[ id=" + id + " ]";
     }
     
 }

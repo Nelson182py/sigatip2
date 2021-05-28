@@ -48,7 +48,7 @@ public class Persona implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
@@ -219,7 +219,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Persona[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Persona[ id=" + id + " ]";
     }
     
 }

@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -45,8 +47,8 @@ public class Incidente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -59,8 +61,7 @@ public class Incidente implements Serializable {
     @Column(name = "complejidad", length = 50)
     private String complejidad;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "fecha_inicio", nullable = false)
+    @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
     @Basic(optional = false)
@@ -69,8 +70,7 @@ public class Incidente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaInicioEstimado;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "fecha_fin", nullable = false)
+    @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
     @Basic(optional = false)
@@ -96,6 +96,9 @@ public class Incidente implements Serializable {
     @JoinColumn(name = "id_servicio", referencedColumnName = "id")
     @ManyToOne
     private Servicio idServicio;
+    @JoinColumn(name = "id_tarea", referencedColumnName = "id")
+    @ManyToOne
+    private Tarea idTarea;
     @JoinColumn(name = "id_reportador", referencedColumnName = "codigo_humano")
     @ManyToOne
     private Usuario idReportador;
@@ -229,6 +232,14 @@ public class Incidente implements Serializable {
         this.idServicio = idServicio;
     }
 
+    public Tarea getIdTarea() {
+        return idTarea;
+    }
+
+    public void setIdTarea(Tarea idTarea) {
+        this.idTarea = idTarea;
+    }
+
     public Usuario getIdReportador() {
         return idReportador;
     }
@@ -267,7 +278,7 @@ public class Incidente implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Incidente[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Incidente[ id=" + id + " ]";
     }
     
 }

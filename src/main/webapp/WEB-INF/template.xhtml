@@ -98,11 +98,16 @@
                         <h:form>
                             
                             <p:menu>
-                                <p:submenu label="Actividades" rendered="#{rolBean.mostrarMenuActividades()}">
-                                    <p:menuitem value="Proyectos" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Incidentes" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Entregabbles" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Tareas" icon="pi pi-refresh"/>
+                                <p:submenu label="Planificacion" rendered="#{rolBean.mostrarMenuActividades()}">
+                                    <p:menuitem value="Proyectos" action="proyectos" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Incidentes" action="incidente" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas de Incidentes" action="tareaIncidentes" />
+                                    <p:menuitem value="Entregables" action="entregable" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas de Entregables" action="tareaEntregables" />
+                                </p:submenu>
+                                <p:submenu label="Seguimiento" rendered="#{rolBean.mostrarMenuActividades()}">                                   
+                                    <p:menuitem value="Tareas de Incidentes" action="tareas_diarias" />
+                                    <p:menuitem value="Tareas de Proyectos" action="tareas_diarias" />
                                 </p:submenu>
                                 <p:submenu label="Gestion" rendered="#{rolBean.mostrarMenuGestion()}">
                                     <p:menuitem value="Personas" action="persona" ajax="false" icon="pi pi-refresh"/>
@@ -120,9 +125,15 @@
                                     <p:menuitem value="Segmentos" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Servicios" ajax="false" icon="pi pi-refresh"/>
                                 </p:submenu>
+                                <p:submenu label="Monitoreo y Control" rendered="#{rolBean.mostrarMenuMonitoreo()}">
+                                    <p:menuitem value="Proyectos" action="monitoreoProyecto" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Incidentes" action="monitoreoIncidente" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Entregabbles" action="monitoreoEntregable" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas" action="monitoreoTarea" icon="pi pi-refresh"/>
+                                </p:submenu>
                                 <p:submenu label="Informes" rendered="#{rolBean.mostrarMenuInformes()}">
-                                    <p:menuitem value="Consolidados " url="http://www.primefaces.org" icon="pi pi-refresh"/>
-                                    <p:menuitem value=" Generales" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Consolidados" action="working" icon="pi pi-refresh"/>
+                                    <p:menuitem value=" Generales" action="working" icon="pi pi-refresh"/>
                                 </p:submenu>
                             </p:menu>
                         </h:form>
