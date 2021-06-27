@@ -1,3 +1,4 @@
+
 package py.com.sigati.bean;
 
 import java.io.Serializable;
@@ -29,9 +30,9 @@ public class EntregableBean extends AbstractBean implements Serializable {
     private String alta = "alta";
     private String baja = "baja";
     private String modificacion = "modificacion";
-    private String completo = "completo"; 
+    private String completo = "completo";
     private String ninguno = "ninguno";
-    private String informes = "descarga"; 
+    private String informes = "descarga";
     private String admin = "Administrador";
     private String pM = "Project Manager";
     private String liderTecnico = "Lider Tecnico";
@@ -134,7 +135,7 @@ public class EntregableBean extends AbstractBean implements Serializable {
     public void setEditando(boolean editando) {
         this.editando = editando;
     }
-    
+   
     public boolean agregarEntregable() {
         Usuario u = loginBean.getUsuarioLogueado();
 
@@ -160,16 +161,16 @@ public class EntregableBean extends AbstractBean implements Serializable {
         }
         return false;
     }
-    
+   
      public List<Entregable> getListaEntregablesActivos() {
         listaEntregablesActivos = new ArrayList<>();
         listaEntregable = entregableEJB.findAll();
          for (Entregable  e:listaEntregable) {
             if(e != null){
-                if(e.getIdEstado().getDescripcion().equals("Iniciado") || 
+                if(e.getIdEstado().getDescripcion().equals("Iniciado") ||
                         e.getIdEstado().getDescripcion().equals("En curso")){
                     listaEntregablesActivos.add(e);
-                }       
+                }      
             }
          }    
         return listaEntregablesActivos;

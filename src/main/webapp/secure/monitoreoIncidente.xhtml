@@ -12,7 +12,13 @@
                 Monitoreo y Control de Incidentes
             </ui:define>    
             <ui:define name="content">
+
+                
                 <h:form id="fromIncidentes">
+
+                    <div class="card">
+                            <p:donutChart model="#{incidenteBean.donutModelConsolidado}" style="width: 100%; height: 250px;"/>
+                    </div>  
                     <p:dataTable id="dtIncidentes" widgetVar="wbTable" value="#{incidenteBean.listaIncidente}" var="inc" rows="10" rowKey="#{inc.id}"
                                  paginator="true" paginatorPosition="bottom">
 
@@ -86,18 +92,23 @@
                                     <f:setPropertyActionListener value="#{inc}"
                                                                  target="#{incidenteBean.incidenteSeleccionado}"/>
                                 </p:commandButton>
+                                <p:commandButton update="formDlgGraficoIncidentes3" oncomplete="PF('graficoDialog3').show()" action="#{incidenteBean.actualizarGrafico3}"
+                                                 icon="pi pi-table" title="View">
+                                    <f:setPropertyActionListener value="#{inc}"
+                                                                 target="#{incidenteBean.incidenteSeleccionado}"/>
+                                </p:commandButton>
                             </center>
                         </p:column>
 
                     </p:dataTable> 
 
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Correcciones" ajax="true" icon="fa fa-plus-circle"  
-                                         oncomplete="PF('wbIncidentes').show();"
-                                         actionListener="#{incidenteBean.agregar()}"
-                                         update="formDlgIncidentes">
-                            <f:setPropertyActionListener value="#{false}" target="#{incidenteBean.editando}" />
-                        </p:commandButton>
+                        <!-- <p:commandButton icon="fa fa-plus-circle"  
+                                         oncomplete="PF('graficoDialogConsolidados').show();"
+                                         action="#{incidenteBean.agregar()}"
+                                         update="formDlgGraficoIncidentesConsolidados">
+                            <f:setPropertyActionListener value="#{inc}" target="#{incidenteBean.actualizarGraficoConsolidado}" />
+                        </p:commandButton> -->
                     </div>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                         <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
@@ -244,6 +255,22 @@
                     <h:form id="formDlgGraficoIncidentes2">    
                         <div class="card">
                             <p:donutChart model="#{incidenteBean.donutModel2}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
+                <p:dialog header="Estado de avance de Iniciativa (Mensual)" widgetVar="graficoDialog3" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoIncidentes3">    
+                        <div class="card">
+                            <p:lineChart model="#{incidenteBean.cartesianLinerModel}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
+                <p:dialog header="Estado de aIncidentes consolidados" widgetVar="graficoDialogConsolidados" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoIncidentesConsolidados">    
+                        <div class="card">
+                            <p:donutChart model="#{incidenteBean.donutModelConsolidado}" style="width: 100%; height: 250px;"/>
                         </div>    
                     </h:form>
                 </p:dialog>

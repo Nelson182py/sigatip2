@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+  
+    <h:body>
+        <ui:composition template="/WEB-INF/template.xhtml"  >
+            <ui:define name="tituloPagina">
+                Carga de tareas diarias para Entregables
+            </ui:define>    
+            <ui:define name="content">
+                <h:form id="fromTareas">
+                    <p:dataTable id="dtTareas" widgetVar="wbTable" value="#{tareasDiariasBean.listaTareasPorAnalistasEntregables}" var="tar" rows="10" rowKey="#{tar.id}"
+                                 paginator="true" paginatorPosition="bottom">
+
+                        <f:facet name="header" >
+                            <div class="products-table-header" align="right">                 
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('wbTable').filter()" placeholder="Search"/>
+                                </span>
+
+                            </div>
+                        </f:facet>
+                        
+                        <p:column headerText="Entregable" filterBy="#{tar.idEntregable.nombre}" filterMatchMode="contains">
+                            <p:outputLabel value="#{tar.idEntregable.nombre}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Tarea" filterBy="#{tar.id}" filterMatchMode="contains">
+                            <p:outputLabel value="#{tar.nombre}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Estado" sortBy="#{tar.idEstado.descripcion}">
+                            <center>
+                                <p:outputLabel value="#{tar.idEstado.descripcion}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+                        
+                        <p:column headerText="Fecha de Finalizacion" sortBy="#{tar.fechaFinEstimado}">
+                            <center>
+                                <p:outputLabel value="#{tar.fechaFinEstimado}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+                        
+                        <p:column headerText="Horas Estimadas" sortBy="#{tar.horasEstimadas}">
+                            <center>
+                                <p:outputLabel value="#{tar.horasEstimadas}" >
+                                 
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+                                   
+                        <p:column headerText="Horas Consumudias" sortBy="#{tar.horas}">
+                            <center>
+                                <p:outputLabel value="#{tar.horas}" >
+                                 
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+                        
+                        <p:column headerText="Acción">
+                            <center>
+                                
+                                <p:commandButton icon="fa fa-plus-circle" title="Agregar" ajax="true" 
+                                         oncomplete="PF('wbTareas').show();"
+                                         actionListener="#{tareasDiariasBean.agregar()}"
+                                         update="formDlgTareas">
+                                    <f:setPropertyActionListener value="#{tar}" target="#{tareasDiariasBean.tareaSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{tareasDiariasBean.editando}" />
+                                </p:commandButton>
+                                
+                                <p:commandButton icon="fa fa-search Fs100 Red" title="Editar" ajax="true"
+                                                 oncomplete="PF('wbTareas').show()"
+                                                 update="formDlgTareas" action="#{tareasDiariasBean.antesActualizar}">
+                                    <f:setPropertyActionListener value="#{tar}" target="#{tareasDiariasBean.tareaSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{tareasDiariasBean.editando}" />
+                                </p:commandButton>
+                            </center>
+                        </p:column>
+
+                    </p:dataTable> 
+                    
+                    <div class="float-sm-right" style="padding-top: 10px;">
+                        <p:commandButton value="Agregar Tarea Diaria" ajax="true" icon="fa fa-plus-circle"  
+                                         oncomplete="PF('wbTareas').show();"
+                                         actionListener="#{tareasDiariasBean.agregar()}"
+                                         update="formDlgTareas">
+                            <f:setPropertyActionListener value="#{false}" target="#{tareasDiariasBean.editando}" />
+                        </p:commandButton>
+                    </div> 
+                    
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog>  
+                </h:form>
+
+                <p:dialog id="dlgTareas" widgetVar="wbTareas" closeOnEscape="true" closable="true" header="Tarea"
+                          width="1000" height="380" modal="true"> 
+                    <h:form id="formDlgTareas">
+                        <div class="bd-example">
+                            
+                            <div class="form-group row">
+                                <label for="selTarea" class="col-sm-2 col-form-label">Tarea</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selEntregable" value="#{tareasDiariasBean.tarea}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{tareasDiariasBean.listaTareasPorAnalistasEntregables}" var="tarea" itemLabel="#{tarea.nombre}" itemValue="#{tarea}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="horas" class="col-sm-2 col-form-label">Horas</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="codigo" styleClass="form-control" required="false"
+                                                 value="#{tareasDiariasBean.tareaSeleccionado.horas}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFinEstimada" required="false" style="widows: 300px !important;"
+                                                value="#{tareasDiariasBean.tareaSeleccionado.fecha}"/>
+                                </div>
+                            </div> 
+                            
+                             <div class="form-group row">
+                                <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="descripcion" styleClass="form-control" required="false"
+                                                 value="#{tareasDiariasBean.tareaSeleccionado.descripcion}"/>
+                                </div>
+                            </div>
+                            
+                             <div class="form-group row">
+                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selEstados" value="#{tareasDiariasBean.estadoSeleccionado}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{tareasDiariasBean.listaEstadosPorTarea}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <!-- <div class="form-group row">
+                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="option" value="#{tareasDiariasBean.estado}">
+                                        <f:selectItem itemLabel="Selecionar" itemValue=""/>
+                                        <f:selectItem itemLabel="En Progreso" itemValue="En Progreso"/>
+                                        <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>                                                                   
+                                    </p:selectOneMenu>
+                                </div>
+                            </div> -->
+                                                                                                        
+                        </div>
+
+                        <center>
+                            <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
+                                              action="#{tareasDiariasBean.guardar}"
+                                              update="fromTareas:dtTareas formGrowl:growl"
+                                              process="@this @form"
+                                              rendered="#{!tareasDiariasBean.editando}"
+                                              />
+
+                            <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
+                                              action="#{tareasDiariasBean.actualizar}"
+                                              update="fromTareas:dtTareas formGrowl:growl"
+                                              process="@this @form"
+                                              rendered="#{tareasDiariasBean.editando}"
+                                              />
+
+                            <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                              onclick="PF('wbTareas').hide()"></p:commandButton>
+
+                        </center>
+                    </h:form>
+                </p:dialog>
+                
+            </ui:define>    
+
+        </ui:composition>    
+    </h:body>
+</html>

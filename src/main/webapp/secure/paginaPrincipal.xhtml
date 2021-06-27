@@ -2,12 +2,94 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
-        
-        <stron>
-            <h3>Bienvenido #{loginBean.username} - #{loginBean.usuarioLogueado.idRol.descripcion}</h3>
-        </stron>
 
+        <h:form id="formDlgAyuda">
+            <stron>
+                <h3>Bienvenido #{loginBean.username} - #{loginBean.usuarioLogueado.idRol.descripcion}</h3>
+            </stron>
+            <div align="right">
+                <div class="col-sm-10">
+                    <p:commandButton icon="pi pi-question" title="Ayuda" oncomplete="PF('wbAyuda').show()"
+                                     update="formDlgAyuda" action="#{entregableBean.antesActualizar}">
+                        <f:setPropertyActionListener value="#{pro}" target="#{entregableBean.entregableSeleccionado}" />
+                        <f:setPropertyActionListener value="#{true}" target="#{entregableBean.editando}" />
+                    </p:commandButton>
+                </div>
+            </div>
+        </h:form>
+        
+        <p:dialog id="dlgAyuda" widgetVar="wbAyuda" closeOnEscape="true" closable="true" header="Ayuda"
+                  width="450" height="400" showEffect="fade" modal="true" responsive="true">  
+            <h:form id="formDlgPrincipal">
+
+                <div class="bd-example">
+                    <div class="form-group row">
+                        <label class="col-sm-10" style="alignment-adjust: central"> 
+                                <center>
+                                    <H5>
+                                        <strong> SIGATI </strong>
+                                    </H5>
+                                </center>
+                        </label>                                
+                                <H6>                                    
+                                    <label class="col-sm-10" style="alignment-adjust: central"> <strong> 
+                                            Esta aplicación web tiene como finalidad la de administrar y controlar los distintos proyectos desarrollados por una organización.
+                                            Además, pretende cubrir la necesidad de establecer un seguimiento sobre las tareas desarrolladas por los recursos técnicos.
+                                        </strong>
+                                    </label>  
+                                </H6>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    Los roles a tener en cuenta en el sistema son:
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                            El <strong>Project Manager (PM)</strong> es el rol encargado de                          
+                            - Definir de los proyectos e incidentes
+                            - Cargar de los proyectos e incidentes
+                            - Gestionar los proyectos e incidentes
+                            - Priorizar los proyectos e incidentes
+                            - Monitorear de los proyectos e incidentes
+                            - Generar y visualizar de reportes 
+                        </label>
+                        <label class="col-sm-10" style="alignment-adjust: central">                           
+                            El <strong>Líder técnico</strong> es el encargado de:
+                            - Crear los entregables.
+                            - Analizar las tareas
+                            - Planificar las tareas correspondientes a los entregables.
+                            - Asignar los recursos técnicos a las tareas.
+                            - Asignar las plataformas correspondientes a las tareas.
+                            - Asignar los tiempos planificados.
+                            - Monitorer las tareas.
+                            - Generar y visualizar los reportes e informes.
+                        </label>
+                        <label  class="col-sm-10" style="alignment-adjust: central">                           
+                            <strong>Analista</strong> es el rol encargado de:
+                            - Vizualizar las tareas planificadas asignadas.
+                            - Cargar la fecha y las horas de trabajo de las tareas asignadas.
+                            - Actualizar de los estados de las tareas asignadas.
+                            - Agregar una descripción de las tareas asignadas que realizó.
+                            - Generar y visualizar de reportes
+                        </label>
+                        <label  class="col-sm-10" style="alignment-adjust: central">                           
+                            El <strong>Soporte</strong> es el rol encargado de reportar los incidentes del ambiente productivo.
+                            - Puede crear un incidente.
+                            - Puede crear una tarea relacionada a un incidente, esta tarea(s) es para darle solución a un problema relacionado
+                            a un proyecto en el ambiente productivo. 
+                        </label>                         
+                    </div>                        
+                </div> 
+                <center>
+                    <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                      onclick="PF('wbAyuda').hide()"></p:commandButton>
+                </center>
+
+            </h:form> 
+        </p:dialog>
+        
+        
     </ui:define>
+    
+   
 </ui:composition>

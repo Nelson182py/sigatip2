@@ -23,6 +23,7 @@ public class TareaBean extends AbstractBean implements Serializable {
 
     private List<Tarea> listaTarea = new ArrayList<>();
     private List<Tarea> listaTareasPorAnalistas = new ArrayList<>();
+    private List<Tarea> listaTareasEntregables = new ArrayList<>();
     private Tarea tareaSeleccionado;
     private boolean editando;
     private String alta = "alta";
@@ -159,6 +160,22 @@ public class TareaBean extends AbstractBean implements Serializable {
         }
         return false;
     }
+     
+    public List<Tarea> getListaTareasEntregables() {
+             
+       listaTarea = tareaEJB.findAll();
+       listaTareasEntregables = new ArrayList<>();
+   
+        for (Tarea t:listaTarea) {
+            if (t != null){
+                if (t.getIdEntregable() != null){
+                   
+                    listaTareasEntregables.add(t);
+                }
+            }
+        }
+        return listaTareasEntregables;
+    } 
      
     public boolean agregarTareaAnalista() {
         Usuario u = loginBean.getUsuarioLogueado();

@@ -29,6 +29,7 @@ public class TareasDiariasBean extends AbstractBean implements Serializable {
     private List<TareasDiarias> listaTareasDiariasPorAnalista = new ArrayList<>();
     private List<Tarea> listaTareasPorAnalistas = new ArrayList<>();
     private List<Estado> listaEstadoTarea = new ArrayList<>();
+    private List<Tarea> listaTareasPorAnalistaEntregables = new ArrayList<>();
     
     private Tarea tarea;
     private TareasDiarias tareaSeleccionado;
@@ -214,6 +215,24 @@ public class TareasDiariasBean extends AbstractBean implements Serializable {
         return listaEstadoTmp;
     }
     
+    public List<Tarea> getListaTareasPorAnalistasEntregables() {
+        
+       Usuario u =  loginBean.getUsuarioLogueado();       
+       List<Tarea> listaTarea = tareasEJB.findAll();
+       listaTareasPorAnalistaEntregables = new ArrayList<>();
+    
+        for (Tarea t:listaTarea) {
+            if (t != null){
+                if (u.getUsuario().equals(t.getIdResponsable().getUsuario()) &&
+                        t.getIdEntregable() != null){
+                     listaTareasPorAnalistaEntregables.add(t);
+                }
+            }
+        }
+        return listaTareasPorAnalistaEntregables;
+    }
+      
+      
     public List<Tarea> getListaTareasPorAnalistas() {
         
        Usuario u =  loginBean.getUsuarioLogueado();       

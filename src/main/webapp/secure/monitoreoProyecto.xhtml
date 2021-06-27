@@ -13,6 +13,11 @@
             </ui:define>    
             <ui:define name="content">
                 <h:form id="fromProyectos" styleClass="products-table">
+                    
+                    <div class="card">
+                            <p:donutChart model="#{proyectoBean.donutModelConsolidado}" style="width: 100%; height: 250px;"/>
+                    </div>  
+                    
                     <p:dataTable id="dtProyectos" widgetVar="wbTable" value="#{proyectoBean.listaProyecto}" var="pro" rows="10" rowKey="#{pro.id}"
                                  reflow="true" styleClass="products-table" paginator="true" paginatorPosition="bottom" rowSelectMode="add">
 
@@ -90,7 +95,11 @@
                                     <f:setPropertyActionListener value="#{pro}"
                                                                  target="#{proyectoBean.proyectoSeleccionado}"/>
                                 </p:commandButton>
-                   
+                                 <p:commandButton update="formDlgGraficoProyectos3" oncomplete="PF('graficoDialog3').show()" action="#{proyectoBean.actualizarGrafico3}"
+                                                 icon="pi pi-table" title="View">
+                                    <f:setPropertyActionListener value="#{pro}"
+                                                                 target="#{proyectoBean.proyectoSeleccionado}"/>
+                                </p:commandButton>
                                 
                             </center>
                         </p:column>
@@ -99,12 +108,12 @@
                                       
                         
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Correciones" rendered="#{proyectoBean.agregarProyecto()}" ajax="true" icon="fa fa-plus-circle"  
+                        <!--<p:commandButton value="Correciones" rendered="#{proyectoBean.agregarProyecto()}" ajax="true" icon="fa fa-plus-circle"  
                                          oncomplete="PF('wbProyectos').show();"
                                          actionListener="#{proyectoBean.agregar()}"
                                          update="formDlgProyectos">
                             <f:setPropertyActionListener value="#{false}" target="#{proyectoBean.editando}" />
-                        </p:commandButton>
+                        </p:commandButton> -->
                     </div>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                         <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
@@ -231,6 +240,15 @@
                     <h:form id="formDlgGraficoProyectos2">    
                         <div class="card">
                             <p:donutChart model="#{proyectoBean.donutModel2}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
+                
+                <p:dialog header="Estado de avance de Iniciativa (Mensual)" widgetVar="graficoDialog3" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoProyectos3">    
+                        <div class="card">
+                            <p:lineChart model="#{proyectoBean.cartesianLinerModel}" style="width: 100%; height: 250px;"/>
                         </div>    
                     </h:form>
                 </p:dialog>
